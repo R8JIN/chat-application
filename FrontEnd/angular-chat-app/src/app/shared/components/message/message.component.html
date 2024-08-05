@@ -1,10 +1,10 @@
-<div *ngIf="message.senderClientId == '2'">
+<div *ngIf="message.senderClientId == clientId">
     <div class="d-flex justify-content-end">
         <div class="row btn btn-primary mb-1">{{message.message}}</div>
     </div>
 </div>
 
-<div *ngIf="message.senderClientId != '2'">
+<div *ngIf="message.senderClientId != clientId">
 <div class="d-flex justify-content-start">
     <div class="row btn btn-secondary mb-1">{{message.message}}</div>
 </div>

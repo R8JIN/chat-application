@@ -11,10 +11,11 @@ export class ChatMessageService {
 
   constructor(private http:HttpClient) { }
 
-  getMessage(senderClientId: string, targetClientId: string):Observable<any>{
+  getMessage(senderClientId: string, targetClientId: string, auth_token: string):Observable<any>{
 
     const header = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${auth_token}`
     }); 
 
     console.log("The target client id ", targetClientId);

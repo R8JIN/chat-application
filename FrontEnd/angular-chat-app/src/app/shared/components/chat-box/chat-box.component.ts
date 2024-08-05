@@ -6,6 +6,7 @@ import { MessageComponent } from '../message/message.component';
 import { ReceiveMsgComponent } from '../receive-msg/receive-msg.component';
 import { Messages } from '../../models/messages';
 import { ChatMessageService } from '../../../core/chat-message.service';
+import { LocalService } from '../../../core/local.service';
 
 
 @Component({
@@ -18,8 +19,9 @@ import { ChatMessageService } from '../../../core/chat-message.service';
 export class ChatBoxComponent implements OnInit {
   
   chatMessageService = inject(ChatMessageService)
-
-  clientId: string= '2';
+  localService = inject(LocalService)
+  clientId: string = '';
+  
   @Input() targetClientId : string = '';
   messageInput!: string;
 
@@ -34,9 +36,12 @@ export class ChatBoxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.clientId) {
-      this.webSocketService.connect(this.clientId);
-      console.log("The client id is ", this.clientId );
+    if (this.localService.getData("id")) {
+
+      this.clientId = this.localService.getData("id");
+      this.webSocketService.connect(this.localService.getData("id"));
+      
+      console.log("The client id is ", this.localService.getData("id") );
       this.webSocketService.getMessages().subscribe((message:Messages) => {
         this.messages.push(message);
         console.log("The message", message.message);
@@ -62,9 +67,9 @@ export class ChatBoxComponent implements OnInit {
 
   sendMessage(): void {
     if (this.targetClientId && this.messageInput) {
-      this.webSocketService.sendMessage('2', this.targetClientId, this.messageInput);
+      this.webSocketService.sendMessage(this.clientId, this.targetClientId, this.messageInput);
       const sentMessage: Messages = {
-        senderClientId: '2',
+        senderClientId: this.clientId,
         targetClientId: this.targetClientId,
         message: this.messageInput
       }

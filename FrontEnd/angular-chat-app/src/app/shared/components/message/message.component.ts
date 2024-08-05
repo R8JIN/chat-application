@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Messages } from '../../models/messages';
 import { CommonModule } from '@angular/common';
+import { LocalService } from '../../../core/local.service';
 
 @Component({
   selector: 'app-message',
@@ -12,4 +13,8 @@ import { CommonModule } from '@angular/common';
 export class MessageComponent {
 
   @Input() message!:Messages;
+  clientId: string= '';
+  constructor(private localService:LocalService){
+    this.clientId = this.localService.getData("id");
+  }
 }

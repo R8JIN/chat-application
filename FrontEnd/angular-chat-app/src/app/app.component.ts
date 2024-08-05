@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 import { HomeComponent } from './shared/components/home/home.component';
+import { AuthComponent } from './shared/components/auth/auth.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, HomeComponent],
+  imports: [RouterOutlet, CommonModule, HomeComponent, AuthComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
