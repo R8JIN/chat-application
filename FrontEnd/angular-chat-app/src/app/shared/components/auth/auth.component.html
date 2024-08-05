@@ -1,7 +1,13 @@
 <div class="container">
+    <div class="d-flex justify-content-center m-2">
+        <h2>
+            <i class="fa-brands fa-rocketchat" style="color: #450ced;"> Rocket Chat</i>
+            
+        </h2>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <div class="card mt-5">
+            <div class="card mt-2">
                 <div class="card-header bg-primary text-white text-center">
                     <h3>Login</h3>
                 </div>
@@ -15,14 +21,14 @@
                             <label for="password">Password</label>
                             <input  formControlName="password" type="password" class="form-control" id="password" placeholder="Password">
                         </div>
-                        <div class="my-2">                        
+                        <div class="my-2 d-flex justify-content-center">                        
                             <button type="submit" class="btn btn-primary btn-block">Login</button>
                         </div>
 
                     </form>
                 </div>
                 <div class="card-footer text-center">
-                    <small class="text-muted">Don't have an account? <a href="#">Sign up</a></small>
+                    <small class="text-muted">Don't have an account? <a [routerLink]="['/sign-up']">Sign up</a></small>
                 </div>
             </div>
         </div>

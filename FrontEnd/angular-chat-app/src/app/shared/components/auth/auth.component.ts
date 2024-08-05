@@ -4,6 +4,8 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/auth.service';
 import { LocalService } from '../../../core/local.service';
+import { ToastrService } from 'ngx-toastr';
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-auth',
@@ -22,7 +24,7 @@ export class AuthComponent {
   user_login = false;
   // toastr: any;
 
-  constructor( private router: Router){
+  constructor(private toastr: ToastrService, private router: Router){
     this.username = this.localService.getData("username") || "";
     console.log("From local storage ", this.username);
 
@@ -62,18 +64,26 @@ export class AuthComponent {
         this.loginForm.reset(); 
         this.router.navigate(["/home"]);
 
-        // this.showSuccess("Login Successful");
+        console.log("success");
+        this.showSuccess("Login Successful");
     
       },
       error => {
-        console.error('Error submitting application', error);  
-        // this.showError(error);
+        
+        if(error.status === 400){
+          console.error('Error submitting application', typeof(error.status));  
+          this.showError('Bad Credentials. Please enter valid username or password.');
+        }
+        else{
+          this.showError("You are unauthorized to access the page");
+        }
+
       }
       ); 
     }
     else{
       console.log("Error");
-      // this.showError("Please fill the user form");
+      this.showError("Please fill up the login form.");
     }
 
   }
@@ -87,4 +97,11 @@ export class AuthComponent {
  
   }
 
+  showSuccess(msg:string) {
+    this.toastr.success(msg);
+  }
+
+  showError(msg:string){
+    this.toastr.error(msg);
+  }
 }

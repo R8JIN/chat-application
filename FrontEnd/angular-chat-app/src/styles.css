@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+.toast-success {
+    background: linear-gradient(135deg, #28a745, #34d058) !important; /* Gradient background for success toasts */
+    color: white !important; /* Custom text color for success toasts */
+    border-radius: 10px !important; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important; /* Box shadow */
+    padding: 16px !important;
+  }
+  
+  .toast-error {
+    background: linear-gradient(135deg, #dc3545, #ff6b6b) !important; /* Gradient background for error toasts */
+    color: white !important; /* Custom text color for error toasts */
+    border-radius: 8px !important; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important; /* Box shadow */
+    padding: 16px !important; /* Padding */
+  }
+  
+  .toast-top-right {
+    top: 10px;
+    right: 10px;
+  }
+
+  .toast {
+    animation: fadeIn 0.5s, fadeOut 0.5s 2.5s !important; /* Fade in/out animations */
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }

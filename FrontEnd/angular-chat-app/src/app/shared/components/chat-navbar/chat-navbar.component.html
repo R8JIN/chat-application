@@ -1,21 +1,28 @@
 <nav class="col-lg d-md-block bg-white bg-opacity-25 text-black p-3">
-    <h5>ChatApp</h5>
-    <hr>
-    <h6>Online Users</h6>
-    <ul class="list-unstyled">
-        <li class="media mb-2">
-            <img src="https://via.placeholder.com/40" class="mr-3 rounded-circle" alt="User1">
-            <div class="media-body">
-                <h6 class="mt-0 mb-1" (click)="sendMessage('User1')">User1</h6>
-            </div>
-        </li>
+    <div class="card">
+        <div class="card-head text-black text-center pt-4">
+            <h6><i class="fa-solid fa-circle" style="color: #63E6BE;"> Online Users</i> </h6> 
+        </div>
+         <hr>
+    <div class="card-body">
+        <div>
+        <ul class="list-unstyled">
+            <li class="media mb-2">
+                <img src="https://via.placeholder.com/40" class="mr-3 rounded-circle" alt="User1">
+                <div class="media-body">
+                    <h6 class="mt-0 mb-1" (click)="sendMessage('User1')">User1</h6>
+                </div>
+            </li>
 
-        <!-- <li class="media mb-2">
-            <img src="https://via.placeholder.com/40" class="mr-3 rounded-circle" alt="User1">
-            <div class="media-body">
-                <h6 class="mt-0 mb-1" (click)="sendMessage('User2')">User2</h6>
-            </div>
-        </li> -->
-        
-    </ul>
+            <!-- <li class="media mb-2">
+                <img src="https://via.placeholder.com/40" class="mr-3 rounded-circle" alt="User1">
+                <div class="media-body">
+                    <h6 class="mt-0 mb-1" (click)="sendMessage('User2')">User2</h6>
+                </div>
+            </li> -->
+            
+        </ul>
+        </div>
+    </div>
+    </div>
 </nav>
