@@ -30,6 +30,7 @@ export class AuthComponent {
       this.not_login = false;
       this.user_login = true;
       console.log(this.not_login);
+      this.router.navigate(["/home"])
     }
     console.log(this.username);
   }
@@ -59,7 +60,7 @@ export class AuthComponent {
         this.not_login = false;
         this.username = this.localService.getData("username");
         this.loginForm.reset(); 
-        this.router.navigate(["/"]);
+        this.router.navigate(["/home"]);
 
         // this.showSuccess("Login Successful");
     

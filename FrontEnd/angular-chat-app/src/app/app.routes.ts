@@ -4,7 +4,7 @@ import { HomeComponent } from './shared/components/home/home.component';
 
 export const routes: Routes = [
     {
-        path: 'auth',
+        path: '',
         component: AuthComponent,
         title: 'Home page',
       },
