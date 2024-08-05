@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { WebSocketService } from '../../../core/web-socket.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MessageComponent } from '../message/message.component';
 import { ReceiveMsgComponent } from '../receive-msg/receive-msg.component';
 import { Messages } from '../../models/messages';
+import { ChatMessageService } from '../../../core/chat-message.service';
 
 
 @Component({
@@ -15,12 +16,22 @@ import { Messages } from '../../models/messages';
   styleUrl: './chat-box.component.css'
 })
 export class ChatBoxComponent implements OnInit {
+  
+  chatMessageService = inject(ChatMessageService)
+
   clientId: string= '2';
   @Input() targetClientId : string = '';
   messageInput!: string;
+
+  @Input() chatMessageList:any = [];
+
   messages: Messages[] = [];
   sent: string[] = [];
-  constructor(private webSocketService: WebSocketService) {}
+
+  constructor(private webSocketService: WebSocketService) {
+    
+
+  }
 
   ngOnInit(): void {
     if (this.clientId) {
@@ -32,6 +43,10 @@ export class ChatBoxComponent implements OnInit {
       });
     }
   }
+
+
+
+
 
   connect(): void {
     if (this.clientId) {

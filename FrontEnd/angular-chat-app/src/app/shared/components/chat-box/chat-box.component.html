@@ -6,6 +6,13 @@
                 <div id="chatBox">
                     <!-- Display received messages -->
                     <div class="row">
+                        <div *ngIf="chatMessageList.length > 0">
+                            <div *ngFor="let message of chatMessageList" >
+                                <app-message [message]="message"></app-message>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                             <div *ngIf="messages.length > 0">
                                 <div *ngFor="let message of messages" >
                                     <app-message [message]="message"></app-message>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ChatMessageService } from '../../../core/chat-message.service';
 
 @Component({
   selector: 'app-chat-navbar',
@@ -10,8 +11,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ChatNavbarComponent {
   
-  targetId: string = '';
+  chatMessageService = inject(ChatMessageService)
 
+  targetId: string = '';
+  clientId: string =  '2';
+
+  chatMessageList: any = [];
   @Output() messageEvent = new EventEmitter();
 
   constructor() { }
@@ -20,6 +25,10 @@ export class ChatNavbarComponent {
     console.log("The target Id is", targetId);
     this.messageEvent.emit(targetId);
 
+
   }
 
+  getMessage(){
+
+  }
 }

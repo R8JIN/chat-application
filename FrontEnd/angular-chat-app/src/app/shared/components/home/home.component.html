@@ -4,7 +4,7 @@
         <app-chat-navbar (messageEvent)="addItem($event)"></app-chat-navbar>
     </div>
     <div class="col-8">
-        <app-chat-box [targetClientId]="targetId"></app-chat-box>
+        <app-chat-box [targetClientId]="targetId" [chatMessageList]="chatMessageList"></app-chat-box>
     </div>
 </div>
 </div>
