@@ -20,6 +20,8 @@ export class AuthComponent {
   authService = inject(AuthService);
   localService = inject(LocalService);
   username = '';
+  firstName: string = '';
+  lastName: string = '';
   not_login = true;
   user_login = false;
   // toastr: any;
@@ -56,6 +58,8 @@ export class AuthComponent {
         
         this.localService.saveData("token", String(response.token));
         this.localService.saveData("username", String(response.username));
+        // this.localService.saveData("firstName", String(response.firstName));
+        // this.localService.saveData("lastName", String(response.lastName));
         this.localService.saveData("email", String(response.email));
         this.localService.saveData("id", String(response.id));
         

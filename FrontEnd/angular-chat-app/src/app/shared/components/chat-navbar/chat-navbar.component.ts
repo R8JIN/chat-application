@@ -3,11 +3,12 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ChatMessageService } from '../../../core/chat-message.service';
 import { ClientService } from '../../../core/client.service';
 import { error } from 'console';
+import { HighlightDirective } from '../../directives/highlight.directive';
 
 @Component({
   selector: 'app-chat-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HighlightDirective],
   templateUrl: './chat-navbar.component.html',
   styleUrl: './chat-navbar.component.css'
 })

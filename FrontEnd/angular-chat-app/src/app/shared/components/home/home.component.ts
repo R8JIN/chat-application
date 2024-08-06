@@ -20,12 +20,23 @@ export class HomeComponent {
   clientId: string = '';
   logged: boolean = false;
   
+
+  username: string = '';
+  firstName: string = '';
+  lastName: string = '';
+
   chatMessageService = inject(ChatMessageService);
   chatMessageList: any = [];
 
   constructor(private localService: LocalService){
     if(this.localService.getData("id")){
+
       this.clientId = this.localService.getData("id");
+
+      this.username = this.localService.getData("username");
+      this.firstName = this.localService.getData("firstName");
+      this.lastName = this.localService.getData("lastName");
+      
       this.logged = true;
     }
 

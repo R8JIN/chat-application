@@ -1,28 +1,20 @@
-<nav class="col-lg d-md-block bg-white bg-opacity-25 text-black p-3">
-    <div class="card">
-        <div class="card-head text-black text-center pt-4">
-            <h6><i class="fa-solid fa-circle" style="color: #63E6BE;"> Online Users</i> </h6> 
-        </div>
-         <hr>
-    <div class="card-body">
-        <div>
-        <ul class="list-unstyled">
-            <li *ngFor="let client of clientList" class="media mb-2">
-                <img src="https://via.placeholder.com/40" class="mr-3 rounded-circle" alt="User1">
-                <div class="media-body">
-                    <h6 class="mt-0 mb-1" (click)="sendMessage(client.id, client.firstName)">{{client.firstName}} {{client.lastName}}</h6>
-                </div>
-            </li>
+<nav class="col-lg d-md-block bg-white bg-opacity-25 text-black ">
+    
+            <table class="table table-bordered">
+                <thead class="bg-success text-white text-center p-3">
+                    
+                     <h5 class="p-2">Available Users</h5>
+                </thead>
+                <tbody>
+                    <tr  *ngFor="let client of clientList" class="p-2 m-2"  (click)="sendMessage(client.id, client.firstName)"> 
+                        <td [appHighlight]="'lightgreen'">
+                            <!-- <i class="fa-solid fa-circle fa-2xs" style="color: #3e853d;"></i> -->
+                             <p>{{client.firstName}} {{client.lastName}}</p>
+                        </td>     
+                    </tr>
+                </tbody>
+            </table>
 
-            <!-- <li class="media mb-2">
-                <img src="https://via.placeholder.com/40" class="mr-3 rounded-circle" alt="User1">
-                <div class="media-body">
-                    <h6 class="mt-0 mb-1" (click)="sendMessage('User2')">User2</h6>
-                </div>
-            </li> -->
-            
-        </ul>
-        </div>
-    </div>
-    </div>
+
+    
 </nav>

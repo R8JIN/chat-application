@@ -1,8 +1,8 @@
 <div *ngIf="targetClientId" class="row">
     <div class="col">
         <div class="card">
-            <div class="card-header bg-primary text-white">Chat with {{targetFirstName}}</div>
-            <div class="card-body d-flex flex-column-reverse" style="height: 640px; overflow-y: scroll; background-color: #f8f9fa;">
+            <div class="card-header bg-success text-white"><i class="fa-solid fa-circle-user"></i> {{targetFirstName}}</div>
+            <div class="card-body d-flex flex-column-reverse" style="height: 560px; overflow-y: scroll; background-color: #f8f9fa;">
                 <div id="chatBox">
                     <!-- Display received messages -->
                     <div class="row">
@@ -25,7 +25,15 @@
                 <div class="input-group">
                     <textarea class="form-control" [(ngModel)]="messageInput" id="chatInput" placeholder="Type your message..." rows="1"></textarea>
                     <div class="input-group-append m-2">
-                        <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+                        
+                        
+                        <button *ngIf="messageInput" class="btn btn-success px-2" (click)="sendMessage()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-send" viewBox="0 0 20 20">
+                                <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" 
+                                transform="rotate(45 8 8)" />
+                            </svg>
+                            
+                        </button>
                     </div>
                 </div>
             </div>
