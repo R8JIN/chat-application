@@ -1,21 +1,21 @@
 <div *ngIf="targetClientId" class="row">
     <div class="col">
         <div class="card">
-            <div class="card-header bg-primary text-white">Chat with {{targetClientId}}</div>
+            <div class="card-header bg-primary text-white">Chat with {{targetFirstName}}</div>
             <div class="card-body d-flex flex-column-reverse" style="height: 640px; overflow-y: scroll; background-color: #f8f9fa;">
                 <div id="chatBox">
                     <!-- Display received messages -->
                     <div class="row">
                         <div *ngIf="chatMessageList.length > 0">
                             <div *ngFor="let message of chatMessageList" >
-                                <app-message [message]="message"></app-message>
+                                <app-message [message]="message" [targetClientId]="targetId"></app-message>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                             <div *ngIf="messages.length > 0">
                                 <div *ngFor="let message of messages" >
-                                    <app-message [message]="message"></app-message>
+                                    <app-message [message]="message" [targetClientId]="targetClientId"></app-message>
                                 </div>
                             </div>
                     </div>

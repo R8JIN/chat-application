@@ -4,21 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
-        })
+@Builder
 @Getter
 @Setter
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class User extends Client{
 
     private String username;
     private String email;
@@ -30,14 +25,12 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User() {
-    }
 
-    public User(String username, String email, String password) {
+    public User(String firstName, String lastName, String username, String email, String password) {
+
+        super(firstName, lastName);
         this.username = username;
         this.email = email;
         this.password = password;
     }
-
-
 }

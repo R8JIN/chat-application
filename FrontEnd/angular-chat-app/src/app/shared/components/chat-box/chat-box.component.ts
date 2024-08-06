@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, SimpleChanges } from '@angular/core';
 import { WebSocketService } from '../../../core/web-socket.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +22,9 @@ export class ChatBoxComponent implements OnInit {
   localService = inject(LocalService)
   clientId: string = '';
   
+  @Input() targetFirstName: string = '';
   @Input() targetClientId : string = '';
+  targetId: string = '';
   messageInput!: string;
 
   @Input() chatMessageList:any = [];
@@ -32,12 +34,13 @@ export class ChatBoxComponent implements OnInit {
 
   constructor(private webSocketService: WebSocketService) {
     
-
+    console.log("The chatbox id ", this.targetClientId);
   }
+
 
   ngOnInit(): void {
     if (this.localService.getData("id")) {
-
+      this.messages= [];
       this.clientId = this.localService.getData("id");
       this.webSocketService.connect(this.localService.getData("id"));
       
@@ -49,8 +52,13 @@ export class ChatBoxComponent implements OnInit {
     }
   }
 
-
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['targetClientId']) {
+      this.messages = [];
+      this.targetId = this.targetClientId
+      console.log(this.chatMessageList);
+    }
+  }
 
 
   connect(): void {
