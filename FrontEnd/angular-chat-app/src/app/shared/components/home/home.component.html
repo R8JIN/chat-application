@@ -1,22 +1,59 @@
-<div *ngIf="logged" class="container m-3">
-    <div class="row">
-        <div class="col-3">
-            <app-chat-navbar (messageEvent)="addItem($event)"></app-chat-navbar>
-            <app-logout></app-logout>
-        </div>
-        <div class="col-8" *ngIf="targetId">
-            <app-chat-box [targetClientId]="targetId" [chatMessageList]="chatMessageList" [targetFirstName]="targetFirstName">
-                
-            </app-chat-box>
+<nav class="navbar navbar-expand-lg navbar-light bg-success p-3 sticky-top">
+    <div class="container"> 
+        <a class="navbar-brand" routerLink="['/home']">
+            <i class="fa-brands fa-rocketchat fa-lg" style="color: #ffffff;"> RocketChat</i>
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown">
+                    <div class="dropdown">
+                        <button class="btn btn-success" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-circle-user" style="color: #fafcff;"> {{username}} </i>    
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="#">Settings</a>
+                            <app-logout></app-logout>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
+</nav>
 
-<div *ngIf="!logged" class="container m-3">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <h1 class="display-4">401 Unauthorized</h1>
-            <p class="lead">Sorry, you are not authorized to access this page.</p>
+
+<div class="container">
+    <div *ngIf="logged" class="container m-3">
+        <div class="row">
+            <div class="col-3">
+                <app-chat-navbar (messageEvent)="addItem($event)"></app-chat-navbar>
+                
+            </div>
+            <div class="col-8" *ngIf="targetId">
+                <app-chat-box [targetClientId]="targetId"
+                [chatMessageList]="chatMessageList" 
+                [targetFirstName]="targetFirstName">
+                
+                </app-chat-box>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="!logged" class="container m-3">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1 class="display-4">401 Unauthorized</h1>
+                <p class="lead">Sorry, you are not authorized to access this page.</p>
+            </div>
         </div>
     </div>
 </div>
