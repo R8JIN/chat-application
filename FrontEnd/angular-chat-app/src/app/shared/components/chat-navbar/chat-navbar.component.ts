@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ChatMessageService } from '../../../core/chat-message.service';
+import { ClientService } from '../../../core/client.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-chat-navbar',
@@ -11,24 +13,34 @@ import { ChatMessageService } from '../../../core/chat-message.service';
 })
 export class ChatNavbarComponent {
   
-  chatMessageService = inject(ChatMessageService)
+  chatMessageService = inject(ChatMessageService);
+  clientService = inject(ClientService);
 
   targetId: string = '';
   clientId: string =  '2';
+  targetFirstName: string = '';
+  clientList: any = [];
 
   chatMessageList: any = [];
-  @Output() messageEvent = new EventEmitter();
+  @Output() messageEvent = new EventEmitter<{targetId:string, targetFirstName:string}>();
 
-  constructor() { }
+  constructor() {
+    this.clientService.getClients().subscribe(response=>{
+      this.clientList = response.data;
+      console.log("The clientList is ", this.clientList);
+    },
+    error=>{
+      console.log(error);
+    }
+    )
+   }
 
-  sendMessage(targetId: string) {
-    console.log("The target Id is", targetId);
-    this.messageEvent.emit(targetId);
-
+  sendMessage(targetId: string, targetFirstName: string) {
+    // console.log("The target Id is", targetId);
+    this.messageEvent.emit({targetId, targetFirstName});
+    // this.messageEvent.emit(targetFirstName);
 
   }
 
-  getMessage(){
 
-  }
 }

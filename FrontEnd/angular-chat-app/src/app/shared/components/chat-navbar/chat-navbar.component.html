@@ -7,10 +7,10 @@
     <div class="card-body">
         <div>
         <ul class="list-unstyled">
-            <li class="media mb-2">
+            <li *ngFor="let client of clientList" class="media mb-2">
                 <img src="https://via.placeholder.com/40" class="mr-3 rounded-circle" alt="User1">
                 <div class="media-body">
-                    <h6 class="mt-0 mb-1" (click)="sendMessage('User1')">User1</h6>
+                    <h6 class="mt-0 mb-1" (click)="sendMessage(client.id, client.firstName)">{{client.firstName}} {{client.lastName}}</h6>
                 </div>
             </li>
 

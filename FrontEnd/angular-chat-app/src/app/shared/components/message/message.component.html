@@ -4,7 +4,7 @@
     </div>
 </div>
 
-<div *ngIf="message.senderClientId != clientId">
+<div *ngIf="message.senderClientId == targetClientId">
 <div class="d-flex justify-content-start">
     <div class="row btn btn-secondary mb-1">{{message.message}}</div>
 </div>

@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class HomeComponent {
   targetId: string= '';
+  targetFirstName: string = '';
   clientId: string = '';
   logged: boolean = false;
   
@@ -30,8 +31,10 @@ export class HomeComponent {
 
   }
 
-  addItem(newTargetId:string){
-    this.targetId = newTargetId;
+  addItem(data:any){
+    this.targetId = data.targetId;
+    this.targetFirstName = data.targetFirstName;
+    
     console.log("The home targetId is", this.targetId);
 
     if(this.localService.getData("id")){
