@@ -32,6 +32,8 @@ export class ChatBoxComponent  {
 
   @Input() chatMessageList:any = [];
   @Input() messageTimeStampList: Date[] = [];
+  @Input() recentTimeStamp!: Date;
+  
   messageList: any = [];
 
   messages: Messages[] = [];
@@ -39,15 +41,18 @@ export class ChatBoxComponent  {
 
   dateToday: any;
 
-  constructor(private webSocketService: WebSocketService, private toastr:ToastrService) {
+
+  constructor(private webSocketService: WebSocketService) {
     
     this.dateToday = Date.now().toString();
+    
   }
 
 
   ngOnInit(): void {
     if (this.localService.getData("id")) {
       this.messages= [];
+
       this.clientId = this.localService.getData("id");
       this.webSocketService.connect(this.localService.getData("id"));
       
@@ -55,7 +60,7 @@ export class ChatBoxComponent  {
       this.webSocketService.getMessages().subscribe((message:Messages) => {
         this.messages.push(message);
         console.log("The message", message);
-        this.showSuccess(message.targetClientId)
+        // this.showSuccess(message.targetClientId)
       });
 
       
@@ -66,8 +71,7 @@ export class ChatBoxComponent  {
     if (changes['targetClientId']) {
       this.messages = [];
       this.targetId = this.targetClientId
-
-      
+     
 
     }
   }
@@ -104,7 +108,4 @@ export class ChatBoxComponent  {
     }
   }
 
-  showSuccess(msg:string) {
-    this.toastr.success(msg);
-  }
 }
