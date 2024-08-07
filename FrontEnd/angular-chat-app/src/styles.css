@@ -5,6 +5,7 @@
     border-radius: 10px !important; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important; /* Box shadow */
     padding: 16px !important;
+    margin: 2px;
   }
   
   .toast-error {
@@ -15,9 +16,10 @@
     padding: 16px !important; /* Padding */
   }
   
-  .toast-top-right {
-    top: 10px;
+  .toast-bottom-right {
+
     right: 10px;
+    bottom: 10px;
   }
 
   .toast {

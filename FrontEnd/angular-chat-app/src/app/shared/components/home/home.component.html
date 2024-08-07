@@ -33,11 +33,11 @@
 <div class="container">
     <div *ngIf="logged" class="container m-3">
         <div class="row">
-            <div class="col-3">
+            <div class="col-md-3">
                 <app-chat-navbar (messageEvent)="addItem($event)"></app-chat-navbar>
                 
             </div>
-            <div class="col-8" *ngIf="targetId">
+            <div class="col-md-8" *ngIf="targetId">
                 <app-chat-box [targetClientId]="targetId"
                 [chatMessageList]="chatMessageList" 
                 [targetFirstName]="targetFirstName"
