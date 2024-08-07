@@ -26,7 +26,6 @@ export class ChatBoxComponent  {
   @Input() targetFirstName: string = '';
   @Input() targetClientId : string = '';
 
-  messageTimeStamp: Date[] = [];
   targetId: string = '';
   messageInput!: string;
 
@@ -37,11 +36,11 @@ export class ChatBoxComponent  {
   messages: Messages[] = [];
   sent: string[] = [];
 
+  dateToday: any;
+
   constructor(private webSocketService: WebSocketService) {
     
-
-
-
+    this.dateToday = Date.now().toString();
   }
 
 
@@ -54,7 +53,7 @@ export class ChatBoxComponent  {
       console.log("The client id is ", this.localService.getData("id") );
       this.webSocketService.getMessages().subscribe((message:Messages) => {
         this.messages.push(message);
-        console.log("The message", message.message);
+        console.log("The message", message);
        
       });
 
