@@ -21,7 +21,7 @@ export class ChatNavbarComponent {
   clientId: string =  '2';
   targetFirstName: string = '';
   clientList: any = [];
-
+  selectedName: string = '';
   chatMessageList: any = [];
   @Output() messageEvent = new EventEmitter<{targetId:string, targetFirstName:string}>();
 
@@ -37,6 +37,7 @@ export class ChatNavbarComponent {
    }
 
   sendMessage(targetId: string, targetFirstName: string) {
+    this.selectedName = targetFirstName;
     // console.log("The target Id is", targetId);
     this.messageEvent.emit({targetId, targetFirstName});
     // this.messageEvent.emit(targetFirstName);
