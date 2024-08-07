@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { LogoutComponent } from '../logout/logout.component';
 import { LocalService } from '../../../core/local.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [LogoutComponent],
+  imports: [LogoutComponent, CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })

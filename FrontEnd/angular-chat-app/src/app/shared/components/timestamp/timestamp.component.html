@@ -1,0 +1,13 @@
+<div *ngIf="
+(currentMessageTimeStamp| date:'shortDate') == (date | date:'shortDate') 
+&& (currentMessageTimeStamp| date:'shortDate') == (prevMessageTimeStamp | date:'shortDate') " 
+class="row text-center m-2">
+    <small >{{currentMessageTimeStamp | date:'shortDate'}}</small>
+</div>
+
+<div *ngIf="
+    (currentMessageTimeStamp| date:'shortDate') == (date | date:'shortDate') 
+    && (currentMessageTimeStamp| date:'shortDate') == (prevMessageTimeStamp | date:'shortDate') " 
+    class="row text-center m-2">
+    <small >{{currentMessageTimeStamp | date:'shortDate'}}</small>
+</div>

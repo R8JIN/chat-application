@@ -6,11 +6,12 @@ import { LocalService } from '../../../core/local.service';
 import { LogoutComponent } from '../logout/logout.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ChatBoxComponent,ChatNavbarComponent, LogoutComponent, ProfileComponent],
+  imports: [CommonModule, ChatBoxComponent,ChatNavbarComponent, LogoutComponent, ProfileComponent, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -27,6 +28,7 @@ export class HomeComponent {
 
   chatMessageService = inject(ChatMessageService);
   chatMessageList: any = [];
+  messageTimeStampList: Date[] = [];
 
   constructor(private localService: LocalService){
     if(this.localService.getData("id")){
@@ -47,7 +49,7 @@ export class HomeComponent {
     this.targetFirstName = data.targetFirstName;
     
     console.log("The home targetId is", this.targetId);
-
+    this.chatMessageList = [];
     if(this.localService.getData("id")){
     
       this.chatMessageService.getMessage(this.localService.getData("id"), this.targetId,
@@ -55,9 +57,36 @@ export class HomeComponent {
         response => {
           this.chatMessageList = response.data;
           console.log("The message list", this.chatMessageList);
+          const messageList = response.data;
+          const dateList: Date[] = [];
+          for(let message of messageList){
+            console.log("Print");
+            dateList.push(new Date(message.messageTimeStamp));
+          }
+          this.messageTimeStampList = this.getDistinctDates(dateList);
+    
+          console.log("The message time stamp list", this.messageTimeStampList);
+    
         }
       )
+     
     }
+  }
+
+
+  getDistinctDates(timestamps: Date[]): Date[] {
+    const distinctDates = new Set<string>();
+    const result: Date[] = [];
+  
+    timestamps.forEach((timestamp) => {
+      const dateStr = timestamp.toISOString().split('T')[0];
+      if (!distinctDates.has(dateStr)) {
+        distinctDates.add(dateStr);
+        result.push(new Date(dateStr));
+      }
+    });
+    console.log("The result is", result);
+    return result;
   }
 
 }

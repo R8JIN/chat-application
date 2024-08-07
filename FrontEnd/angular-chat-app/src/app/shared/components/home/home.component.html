@@ -17,8 +17,8 @@
                             <i class="fa-solid fa-circle-user" style="color: #fafcff;"> {{username}} </i>    
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Profile</a>
-                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" [routerLink]="['/profile']">Profile</a>
+                            <a class="dropdown-item" href="#" aria-disabled="true">Settings</a>
                             <app-logout></app-logout>
                         </div>
                     </div>
@@ -39,8 +39,8 @@
             <div class="col-8" *ngIf="targetId">
                 <app-chat-box [targetClientId]="targetId"
                 [chatMessageList]="chatMessageList" 
-                [targetFirstName]="targetFirstName">
-                
+                [targetFirstName]="targetFirstName"
+                [messageTimeStampList]="messageTimeStampList">
                 </app-chat-box>
             </div>
         </div>
