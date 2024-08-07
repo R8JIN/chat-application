@@ -1,20 +1,16 @@
-<nav class="col-lg d-md-block bg-white bg-opacity-25 text-black ">
-    
-            <table class="table table-bordered">
-                <thead class="bg-success text-white text-center p-3">
-                    
-                     <h5 class="p-2">Available Users</h5>
-                </thead>
-                <tbody>
-                    <tr  *ngFor="let client of clientList" class="p-2 m-2"  (click)="sendMessage(client.id, client.firstName)"> 
-                        <td [appHighlight]="'lightgreen'">
-                            <!-- <i class="fa-solid fa-circle fa-2xs" style="color: #3e853d;"></i> -->
-                             <p>{{client.firstName}} {{client.lastName}}</p>
-                        </td>     
-                    </tr>
-                </tbody>
-            </table>
 
+<table class="table table-bordered" style="border-width: length; border-spacing: 0; border-radius: 8px; overflow: hidden;">
+    <thead class="bg-success text-white text-center p-1">
+        <tr>
+            <th colspan="1" class="bg-success text-white"><h5 class="p-1">Available Users</h5></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let client of clientList" class="p-2 m-2"  (click)="sendMessage(client.id, client.firstName)"> 
+            <td [appHighlight]="'lightgray'" [ngClass]="{'highlight': selectedName === client.firstName}">
+                <p>{{client.firstName}} {{client.lastName}}</p>
+            </td>     
+        </tr>
+    </tbody>
+</table>
 
-    
-</nav>

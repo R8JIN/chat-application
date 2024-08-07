@@ -8,6 +8,7 @@ import { Messages } from '../../models/messages';
 import { ChatMessageService } from '../../../core/chat-message.service';
 import { LocalService } from '../../../core/local.service';
 import { TimestampComponent } from '../timestamp/timestamp.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class ChatBoxComponent  {
 
   dateToday: any;
 
-  constructor(private webSocketService: WebSocketService) {
+  constructor(private webSocketService: WebSocketService, private toastr:ToastrService) {
     
     this.dateToday = Date.now().toString();
   }
@@ -54,7 +55,7 @@ export class ChatBoxComponent  {
       this.webSocketService.getMessages().subscribe((message:Messages) => {
         this.messages.push(message);
         console.log("The message", message);
-       
+        this.showSuccess(message.targetClientId)
       });
 
       
@@ -101,5 +102,9 @@ export class ChatBoxComponent  {
       this.messageInput = '';
     
     }
+  }
+
+  showSuccess(msg:string) {
+    this.toastr.success(msg);
   }
 }
