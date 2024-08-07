@@ -19,9 +19,11 @@ export class AuthComponent {
 
   authService = inject(AuthService);
   localService = inject(LocalService);
+
   username = '';
   firstName: string = '';
   lastName: string = '';
+  
   not_login = true;
   user_login = false;
   // toastr: any;
@@ -96,7 +98,7 @@ export class AuthComponent {
     this.localService.clearData();
     this.not_login=true;
     this.username = this.localService.getData("username") || "";
-    this.router.navigate(["/"]);
+    this.router.navigate(["/auth"]);
     // this.showError("See you !!!");
  
   }

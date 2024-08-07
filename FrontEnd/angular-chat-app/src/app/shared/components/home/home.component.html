@@ -11,6 +11,7 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
+                
                 <li class="nav-item dropdown">
                     <div class="dropdown">
                         <button class="btn btn-success" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -40,7 +41,8 @@
                 <app-chat-box [targetClientId]="targetId"
                 [chatMessageList]="chatMessageList" 
                 [targetFirstName]="targetFirstName"
-                [messageTimeStampList]="messageTimeStampList">
+                [messageTimeStampList]="messageTimeStampList"
+                [recentTimeStamp]="recentTimeStamp">
                 </app-chat-box>
             </div>
         </div>
@@ -48,12 +50,12 @@
 
 
 
-    <div *ngIf="!logged" class="container m-3">
+    <!-- <div *ngIf="!logged" class="container m-3">
         <div class="row">
             <div class="col-md-12 text-center">
                 <h1 class="display-4">401 Unauthorized</h1>
                 <p class="lead">Sorry, you are not authorized to access this page.</p>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>

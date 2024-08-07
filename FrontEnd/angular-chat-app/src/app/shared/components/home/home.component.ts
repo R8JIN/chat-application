@@ -19,7 +19,7 @@ export class HomeComponent {
   targetId: string= '';
   targetFirstName: string = '';
   clientId: string = '';
-  logged: boolean = false;
+  logged: boolean = true;
   
 
   username: string = '';
@@ -29,17 +29,19 @@ export class HomeComponent {
   chatMessageService = inject(ChatMessageService);
   chatMessageList: any = [];
   messageTimeStampList: Date[] = [];
+  recentTimeStamp!: Date;
 
   constructor(private localService: LocalService){
     if(this.localService.getData("id")){
-
       this.clientId = this.localService.getData("id");
 
       this.username = this.localService.getData("username");
       this.firstName = this.localService.getData("firstName");
       this.lastName = this.localService.getData("lastName");
       
-      this.logged = true;
+    }
+    else{
+      this.logged = false;
     }
 
   }
@@ -50,6 +52,8 @@ export class HomeComponent {
     
     console.log("The home targetId is", this.targetId);
     this.chatMessageList = [];
+    this.messageTimeStampList = [];
+    
     if(this.localService.getData("id")){
     
       this.chatMessageService.getMessage(this.localService.getData("id"), this.targetId,
@@ -57,15 +61,15 @@ export class HomeComponent {
         response => {
           this.chatMessageList = response.data;
           console.log("The message list", this.chatMessageList);
+
           const messageList = response.data;
           const dateList: Date[] = [];
           for(let message of messageList){
-            console.log("Print");
             dateList.push(new Date(message.messageTimeStamp));
           }
           this.messageTimeStampList = this.getDistinctDates(dateList);
-    
-          console.log("The message time stamp list", this.messageTimeStampList);
+          this.recentTimeStamp = this.messageTimeStampList[this.messageTimeStampList.length-1]
+          console.log("The message time stamp ", this.recentTimeStamp);
     
         }
       )

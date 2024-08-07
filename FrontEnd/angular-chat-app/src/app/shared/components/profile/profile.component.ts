@@ -18,6 +18,7 @@ export class ProfileComponent {
   username: string = '';
   firstName: string = '';
   lastName: string = '';
+  
   constructor(){
     this.username = this.localService.getData("username");
     this.firstName = this.localService.getData("firstName");

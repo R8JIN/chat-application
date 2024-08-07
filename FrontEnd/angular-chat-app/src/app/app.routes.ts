@@ -5,7 +5,7 @@ import { SignupComponent } from './shared/components/signup/signup.component';
 import { ProfileComponent } from './shared/components/profile/profile.component';
 
 export const routes: Routes = [
-      {
+    {
         path: '',
         component: AuthComponent,
         title: 'Home page',
