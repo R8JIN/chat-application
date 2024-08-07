@@ -7,14 +7,30 @@
                     <!-- Display received messages -->
                     <div class="row">
                         <div *ngIf="chatMessageList.length > 0">
-                            <div *ngFor="let message of chatMessageList" >
-                                <app-message [message]="message" [targetClientId]="targetId"></app-message>
+                            <div *ngFor="let timestamp of messageTimeStampList">
+                                <div class="text-center my-3" *ngIf="(dateToday | date:'shortDate') == (timestamp | date:'shortDate')">
+                                 <small >Today</small>
+                                </div>
+                                <div class="text-center my-3" *ngIf="(dateToday | date:'shortDate') != (timestamp | date:'shortDate')">
+                                    <small >{{timestamp | date:'EEEE'}}</small>
+                                   </div>
+                                <div *ngFor="let message of chatMessageList" >
+                                    <div *ngIf="(timestamp | date:'shortDate') == (message.messageTimeStamp | date: 'shortDate')">
+                                        <app-message [message]="message" [targetClientId]="targetId"></app-message>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                             <div *ngIf="messages.length > 0">
+                                <div  class="text-center my-3">
+                                    <small>Now</small>
+                                </div>
                                 <div *ngFor="let message of messages" >
+                                    <!-- <div class="row text-center m-2">
+                                        <small *ngIf="(message.messageTimeStamp| date:'shortDate') == (messageTimeStamp | date:'shortDate')">Today</small>
+                                    </div> -->
                                     <app-message [message]="message" [targetClientId]="targetClientId"></app-message>
                                 </div>
                             </div>

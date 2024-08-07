@@ -57,9 +57,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
         if (targetSession != null && targetSession.isOpen()) {
             ObjectNode responseNode = objectMapper.createObjectNode();
+
             responseNode.put("senderClientId", senderClientId);
             responseNode.put("message", textMessage);
             responseNode.put("targetClientId", targetClientId);
+            responseNode.put("messageTimeStamp", LocalDateTime.now().toString());
 
             String responseText = responseNode.toString();
             targetSession.sendMessage(new TextMessage(responseText));

@@ -1,7 +1,12 @@
 <div *ngIf="message.senderClientId == clientId && message.targetClientId == targetClientId">
     <div class="d-flex justify-content-end">
-        <div class="btn btn-success mb-1">
-            {{message.message}}
+        <div class="btn btn-success mb-1 mx-3">
+            <div class="row px-2">
+                {{message.message}}
+            </div>
+            <div class="row text-end">
+                <small><sub>{{message.messageTimeStamp | date:'shortTime'}}</sub></small>
+            </div>
         </div>
     </div>
 </div>
@@ -13,7 +18,12 @@
                 <i class="fa-solid fa-circle-user" style="color: #8f9194;"></i>
             </div>
             <div class="col btn btn-secondary mb-1 mx-3">
-                {{message.message}}
+                <div class="row px-2">
+                    {{message.message}}
+                </div>
+                <div class="row text-end">
+                    <small><sub>{{message.messageTimeStamp | date:'shortTime'}}</sub></small>
+                </div>
             </div>
         </div>
     </div>

@@ -58,8 +58,8 @@ export class AuthComponent {
         
         this.localService.saveData("token", String(response.token));
         this.localService.saveData("username", String(response.username));
-        // this.localService.saveData("firstName", String(response.firstName));
-        // this.localService.saveData("lastName", String(response.lastName));
+        this.localService.saveData("firstName", String(response.firstName));
+        this.localService.saveData("lastName", String(response.lastName));
         this.localService.saveData("email", String(response.email));
         this.localService.saveData("id", String(response.id));
         

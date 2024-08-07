@@ -7,16 +7,17 @@ import { ReceiveMsgComponent } from '../receive-msg/receive-msg.component';
 import { Messages } from '../../models/messages';
 import { ChatMessageService } from '../../../core/chat-message.service';
 import { LocalService } from '../../../core/local.service';
+import { TimestampComponent } from '../timestamp/timestamp.component';
 
 
 @Component({
   selector: 'app-chat-box',
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageComponent, ReceiveMsgComponent],
+  imports: [CommonModule, FormsModule, MessageComponent, ReceiveMsgComponent, TimestampComponent],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.css'
 })
-export class ChatBoxComponent implements OnInit {
+export class ChatBoxComponent  {
   
   chatMessageService = inject(ChatMessageService)
   localService = inject(LocalService)
@@ -24,17 +25,22 @@ export class ChatBoxComponent implements OnInit {
   
   @Input() targetFirstName: string = '';
   @Input() targetClientId : string = '';
+
   targetId: string = '';
   messageInput!: string;
 
   @Input() chatMessageList:any = [];
+  @Input() messageTimeStampList: Date[] = [];
+  messageList: any = [];
 
   messages: Messages[] = [];
   sent: string[] = [];
 
+  dateToday: any;
+
   constructor(private webSocketService: WebSocketService) {
     
-    console.log("The chatbox id ", this.targetClientId);
+    this.dateToday = Date.now().toString();
   }
 
 
@@ -47,8 +53,11 @@ export class ChatBoxComponent implements OnInit {
       console.log("The client id is ", this.localService.getData("id") );
       this.webSocketService.getMessages().subscribe((message:Messages) => {
         this.messages.push(message);
-        console.log("The message", message.message);
+        console.log("The message", message);
+       
       });
+
+      
     }
   }
 
@@ -56,9 +65,12 @@ export class ChatBoxComponent implements OnInit {
     if (changes['targetClientId']) {
       this.messages = [];
       this.targetId = this.targetClientId
-      console.log(this.chatMessageList);
+
+      
+
     }
   }
+
 
 
   connect(): void {
@@ -68,8 +80,10 @@ export class ChatBoxComponent implements OnInit {
       this.webSocketService.getMessages().subscribe((response:Messages) => {;
         console.log("The message", typeof(response));
         this.messages.push(response);
+
       
       });
+
     }
   }
 
@@ -79,11 +93,13 @@ export class ChatBoxComponent implements OnInit {
       const sentMessage: Messages = {
         senderClientId: this.clientId,
         targetClientId: this.targetClientId,
-        message: this.messageInput
+        message: this.messageInput,
+        messageTimeStamp: Date.now().toString()
       }
       this.sent.push(this.messageInput);
       this.messages.push(sentMessage);
       this.messageInput = '';
+    
     }
   }
 }
