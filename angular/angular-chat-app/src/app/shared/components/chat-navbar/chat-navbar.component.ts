@@ -27,7 +27,7 @@ export class ChatNavbarComponent {
   clientList: any = [];
   chatMessageList: any = [];
 
-  @Output() messageEvent = new EventEmitter<{targetId:string, targetFirstName:string}>();
+  @Output() messageEvent = new EventEmitter<any>();
 
   constructor() {
     this.clientService.getClients().subscribe(response=>{
@@ -41,12 +41,18 @@ export class ChatNavbarComponent {
     )
    }
 
-  sendMessage(targetId: string, targetFirstName: string) {
-    this.selectedName = targetFirstName;
-    this.messageEvent.emit({targetId, targetFirstName});
+  sendMessage(targetClient:any) {
+    this.selectedName = targetClient.firstName;
+    this.messageEvent.emit(targetClient);
 
+    // const indexToRemove = this.filteredClientList.indexOf(targetClient);
 
+    // if (indexToRemove !== -1) {
+    //   this.filteredClientList.splice(indexToRemove, 1);
+    // }
+    // this.filteredClientList.unshift(targetClient);
   }
+
 
   filterResults(text: string) {
     if (!text) {
