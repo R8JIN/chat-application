@@ -50,8 +50,9 @@ export class HomeComponent {
   }
 
   addItem(data:any){
-    this.targetId = data.targetId;
-    this.targetFirstName = data.targetFirstName;
+    console.log("The data is", data);
+    this.targetId = data.id;
+    this.targetFirstName = data.firstName;
     
     console.log("The home targetId is", this.targetId);
     this.chatMessageList = [];
