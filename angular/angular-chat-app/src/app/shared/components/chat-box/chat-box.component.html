@@ -33,7 +33,7 @@
                                 <div *ngFor="let message of messages" >
                                     <!-- <div class="row text-center m-2">
                                         <small *ngIf="(message.messageTimeStamp| date:'shortDate') == (messageTimeStamp | date:'shortDate')">Today</small>
-                                    </div> -->
+                                    </div> --> 
                                     <app-message [message]="message" [targetClientId]="targetClientId"></app-message>
                                 </div>
                             </div>
