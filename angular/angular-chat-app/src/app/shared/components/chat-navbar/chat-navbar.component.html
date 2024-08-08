@@ -2,11 +2,34 @@
 <table class="table table-bordered" style="border-width: length; border-spacing: 0; border-radius: 8px; overflow: hidden;">
     <thead class="bg-success text-white text-center p-1">
         <tr>
-            <th colspan="1" class="bg-success text-white"><i class="fa-solid fa-circle-user fa-sm"> Available Users</i></th>
+            <th colspan="1" class="bg-success text-white">
+               <div class="row">
+                    <div class="col-sm-2  px-0">
+                        <button class="btn" (click)="filterResults('')">
+                            <i class="fa-solid fa-circle-user fa-lg" style="color: #ffffff;" ></i>
+                        </button> 
+                    </div>
+                
+                <div class="col-sm-8 px-0">
+                    <input type="text" (input)="change($event)" class="form-control" placeholder="Search" aria-label="Search" #filter>
+                </div>                 
+                <div class="col-sm-1 px-0">
+                    <button class="btn" (click)="filterResults(filter.value)"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></button>
+                </div>
+           </div>    
+                
+            </th>
         </tr>
     </thead>
-    <tbody>
-        <tr *ngFor="let client of clientList" class="p-2 m-2"  (click)="sendMessage(client.id, client.firstName)"> 
+    <tbody *ngIf="filteredClientList.length == 0">
+        <tr class="p-2 m-2">
+            <td class="text-center text-muted">
+                No available users
+            </td>
+        </tr>
+    </tbody>
+    <tbody *ngIf="filteredClientList.length > 0" >
+        <tr *ngFor="let client of filteredClientList" class="p-2 m-2"  (click)="sendMessage(client.id, client.firstName)"> 
             <td [appHighlight]="'lightgray'" [ngClass]="{'highlight': selectedName === client.firstName}">
                 <p>{{client.firstName}} {{client.lastName}}</p>
             </td>     
