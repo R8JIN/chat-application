@@ -1,5 +1,5 @@
 # CHAT APP USING SPRING BOOT AND ANGULAR
-
+## Configuartion of this app ( will be added soon)
 #### Login
 ![image](https://github.com/user-attachments/assets/0b6e3c3c-5dde-4cba-84ea-84595e33211e)
 
