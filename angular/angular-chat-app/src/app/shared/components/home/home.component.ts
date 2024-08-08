@@ -32,6 +32,9 @@ export class HomeComponent {
   recentTimeStamp!: Date;
 
   constructor(private localService: LocalService){
+    this.chatMessageList = [];
+    this.messageTimeStampList = [];
+    
     if(this.localService.getData("id")){
       this.clientId = this.localService.getData("id");
 

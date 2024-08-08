@@ -45,6 +45,7 @@ export class ChatBoxComponent  {
   constructor(private webSocketService: WebSocketService) {
     
     this.dateToday = Date.now().toString();
+
     
   }
 
@@ -59,7 +60,7 @@ export class ChatBoxComponent  {
       console.log("The client id is ", this.localService.getData("id") );
       this.webSocketService.getMessages().subscribe((message:Messages) => {
         this.messages.push(message);
-        console.log("The message", message);
+        console.log("The socket message", this.messages);
         // this.showSuccess(message.targetClientId)
       });
 
@@ -68,6 +69,7 @@ export class ChatBoxComponent  {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.messages = [];
     if (changes['targetClientId']) {
       this.messages = [];
       this.targetId = this.targetClientId
@@ -79,13 +81,15 @@ export class ChatBoxComponent  {
 
 
   connect(): void {
+
+    this.messages = [];
     if (this.clientId) {
       this.webSocketService.connect(this.clientId);
       console.log("The client id is ", this.clientId );
       this.webSocketService.getMessages().subscribe((response:Messages) => {;
         console.log("The message", typeof(response));
         this.messages.push(response);
-
+        this.messages = [];
       
       });
 
