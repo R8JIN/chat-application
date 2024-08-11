@@ -6,7 +6,7 @@
         </i>    
         <i *ngIf="notifications.length==0" class="fa-solid fa-bell fa-lg" style="color: #f1eaea;"></i> 
     </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <div class="dropdown-menu my-2" aria-labelledby="dropdownMenuButton">
         <a *ngFor="let notification of notifications" class="dropdown-item" [routerLink]="['/']">New message from {{notification.message.senderClientId}}</a>
         
     </div>
