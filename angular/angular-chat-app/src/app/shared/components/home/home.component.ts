@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ChatBoxComponent } from '../chat-box/chat-box.component';
 import { ChatNavbarComponent } from '../chat-navbar/chat-navbar.component';
 import { ChatMessageService } from '../../../core/chat-message.service';
@@ -7,6 +7,9 @@ import { LogoutComponent } from '../logout/logout.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { WebSocketService } from '../../../core/web-socket.service';
+import { Messages } from '../../models/messages';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +18,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   targetId: string= '';
   targetFirstName: string = '';
   clientId: string = '';
@@ -31,13 +34,16 @@ export class HomeComponent {
   messageTimeStampList: Date[] = [];
   recentTimeStamp!: Date;
 
-  constructor(private localService: LocalService){
+  constructor(private localService: LocalService, 
+              private webSocketService: WebSocketService,
+              private toastr: ToastrService){
+
     this.chatMessageList = [];
     this.messageTimeStampList = [];
     
     if(this.localService.getData("id")){
+      
       this.clientId = this.localService.getData("id");
-
       this.username = this.localService.getData("username");
       this.firstName = this.localService.getData("firstName");
       this.lastName = this.localService.getData("lastName");
@@ -49,11 +55,32 @@ export class HomeComponent {
 
   }
 
+  ngOnInit(){
+
+    this.clientId = this.localService.getData("id");
+    this.webSocketService.connect(this.localService.getData("id"));
+
+    this.webSocketService.getMessages().subscribe((message:Messages) => {
+      if(this.targetId == ''){
+        this.showSuccess("New Message");
+      }
+    });
+
+  }
+
   addItem(data:any){
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
     this.targetId = data.targetId;
     this.targetFirstName = data.targetFirstName;
+=======
+=======
+>>>>>>> Stashed changes
+
+    this.targetId = data.id;
+    this.targetFirstName = data.firstName;
+>>>>>>> Stashed changes
     
-    console.log("The home targetId is", this.targetId);
     this.chatMessageList = [];
     this.messageTimeStampList = [];
     
@@ -63,16 +90,16 @@ export class HomeComponent {
        this.localService.getData("token")).subscribe(
         response => {
           this.chatMessageList = response.data;
-          console.log("The message list", this.chatMessageList);
-
+          
           const messageList = response.data;
           const dateList: Date[] = [];
+          
           for(let message of messageList){
             dateList.push(new Date(message.messageTimeStamp));
           }
           this.messageTimeStampList = this.getDistinctDates(dateList);
           this.recentTimeStamp = this.messageTimeStampList[this.messageTimeStampList.length-1]
-          console.log("The message time stamp ", this.recentTimeStamp);
+
     
         }
       )
@@ -92,8 +119,16 @@ export class HomeComponent {
         result.push(new Date(dateStr));
       }
     });
-    console.log("The result is", result);
+   
     return result;
   }
+
+  showSuccess(msg:string) {
+    this.toastr.success(msg);
+  }
+
+  // showError(msg:string){
+  //   this.toastr.error(msg);
+  // }
 
 }

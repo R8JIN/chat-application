@@ -27,8 +27,19 @@ export class ChatNavbarComponent {
 
   constructor() {
     this.clientService.getClients().subscribe(response=>{
+     
       this.clientList = response.data;
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
       console.log("The clientList is ", this.clientList);
+=======
+      this.filteredClientList = this.clientList;
+
+>>>>>>> Stashed changes
+=======
+      this.filteredClientList = this.clientList;
+
+>>>>>>> Stashed changes
     },
     error=>{
       console.log(error);

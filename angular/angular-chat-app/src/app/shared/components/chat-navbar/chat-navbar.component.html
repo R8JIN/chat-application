@@ -5,9 +5,25 @@
             <th colspan="1" class="bg-success text-white"><i class="fa-solid fa-circle-user fa-sm"> Available Users</i></th>
         </tr>
     </thead>
+<<<<<<< Updated upstream
     <tbody>
         <tr *ngFor="let client of clientList" class="p-2 m-2"  (click)="sendMessage(client.id, client.firstName)"> 
             <td [appHighlight]="'lightgray'" [ngClass]="{'highlight': selectedName === client.firstName}">
+=======
+    <tbody *ngIf="filteredClientList.length == 0">
+        <tr class="p-2 m-2">
+            <td class="text-center text-muted">
+                No available users
+            </td>
+        </tr>
+    </tbody>
+    <tbody *ngIf="filteredClientList.length > 0" >
+        <tr *ngFor="let client of filteredClientList" class="p-2 m-2"  (click)="sendMessage(client)"> 
+            <td [appHighlight]="'lightgray'" [ngClass]="{'highlight': selectedName === client.firstName}" >
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
                 <p>{{client.firstName}} {{client.lastName}}</p>
             </td>     
         </tr>
