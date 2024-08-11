@@ -3,6 +3,7 @@ import { AuthComponent } from './shared/components/auth/auth.component';
 import { HomeComponent } from './shared/components/home/home.component';
 import { SignupComponent } from './shared/components/signup/signup.component';
 import { ProfileComponent } from './shared/components/profile/profile.component';
+import { NotificationComponent } from './shared/components/notification/notification.component';
 
 export const routes: Routes = [
     {
@@ -24,5 +25,10 @@ export const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         title: 'Profile page'
+      },
+      {
+        path: 'notification', 
+        component: NotificationComponent,
+        title: 'Notification component'
       }
 ];

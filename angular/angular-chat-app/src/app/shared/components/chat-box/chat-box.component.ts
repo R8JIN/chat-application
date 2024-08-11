@@ -9,6 +9,7 @@ import { ChatMessageService } from '../../../core/chat-message.service';
 import { LocalService } from '../../../core/local.service';
 import { TimestampComponent } from '../timestamp/timestamp.component';
 import { ToastrService } from 'ngx-toastr';
+import { ClientService } from '../../../core/client.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class ChatBoxComponent  {
   chatMessageService = inject(ChatMessageService)
   localService = inject(LocalService)
   clientId: string = '';
-  
+  notificationCount: number = 0;
+
   @Input() targetFirstName: string = '';
   @Input() targetClientId : string = '';
 
@@ -43,7 +45,9 @@ export class ChatBoxComponent  {
   dateToday: any;
 
 
-  constructor(private toastr: ToastrService, private webSocketService: WebSocketService) {
+  constructor(private toastr: ToastrService, 
+              private clientService: ClientService,
+              private webSocketService: WebSocketService) {
     
     this.dateToday = Date.now().toString();
     
@@ -65,10 +69,16 @@ export class ChatBoxComponent  {
           console.log("The socket message new", this.messages);
         }
         else{
-          this.showSuccess("New Message");
+          this.clientService.getByClientId(message.senderClientId).subscribe((response:any)=>{
+            const senderName = response.data.firstName + " " + response.data.lastName;
+            console.log('New Message from ', senderName);
+            this.notificationCount++;
+            this.showSuccess("New Message from " + senderName);
+          }) 
+          
         }
       });
-
+    console.log("The notification count", this.notificationCount);
       
     }
   }
@@ -105,6 +115,7 @@ export class ChatBoxComponent  {
     if (this.targetClientId && this.messageInput) {
       this.webSocketService.sendMessage(this.clientId, this.targetClientId, this.messageInput);
       const sentMessage: Messages = {
+        id: 0,
         senderClientId: this.clientId,
         targetClientId: this.targetClientId,
         message: this.messageInput,

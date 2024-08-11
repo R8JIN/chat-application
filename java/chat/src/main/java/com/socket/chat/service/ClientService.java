@@ -2,12 +2,12 @@ package com.socket.chat.service;
 
 
 import com.socket.chat.mapstruct.ClientDto;
-import com.socket.chat.model.Client;
 import com.socket.chat.repository.ClientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.socket.chat.repository.ClientRepository.Specs.getClient;
@@ -27,4 +27,9 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
+    public Optional<ClientDto> getClientById(Long id){
+
+        return clientRepository.findById(id).map(client ->
+            new ClientDto(client.getId(), client.getFirstName(), client.getLastName()));
+    }
 }
