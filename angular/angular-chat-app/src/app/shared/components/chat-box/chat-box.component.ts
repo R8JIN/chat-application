@@ -14,7 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-chat-box',
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageComponent, ReceiveMsgComponent, TimestampComponent],
+  imports: [CommonModule, FormsModule, MessageComponent,
+            TimestampComponent],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.css'
 })
@@ -42,10 +43,9 @@ export class ChatBoxComponent  {
   dateToday: any;
 
 
-  constructor(private webSocketService: WebSocketService) {
+  constructor(private toastr: ToastrService, private webSocketService: WebSocketService) {
     
     this.dateToday = Date.now().toString();
-
     
   }
 
@@ -59,9 +59,14 @@ export class ChatBoxComponent  {
       
       console.log("The client id is ", this.localService.getData("id") );
       this.webSocketService.getMessages().subscribe((message:Messages) => {
-        this.messages.push(message);
-        console.log("The socket message", this.messages);
-        // this.showSuccess(message.targetClientId)
+
+        if(this.targetClientId ==  message.senderClientId){
+          this.messages.push(message);
+          console.log("The socket message new", this.messages);
+        }
+        else{
+          this.showSuccess("New Message");
+        }
       });
 
       
@@ -87,7 +92,7 @@ export class ChatBoxComponent  {
       this.webSocketService.connect(this.clientId);
       console.log("The client id is ", this.clientId );
       this.webSocketService.getMessages().subscribe((response:Messages) => {;
-        console.log("The message", typeof(response));
+
         this.messages.push(response);
         this.messages = [];
       
@@ -112,4 +117,11 @@ export class ChatBoxComponent  {
     }
   }
 
+  showSuccess(msg:string) {
+    this.toastr.success(msg);
+  }
+
+  showError(msg:string){
+    this.toastr.error(msg);
+  }
 }

@@ -35,7 +35,7 @@ export class AuthComponent {
     if(this.username){
       this.not_login = false;
       this.user_login = true;
-      console.log(this.not_login);
+
       this.router.navigate(["/home"])
     }
     console.log(this.username);
@@ -56,7 +56,6 @@ export class AuthComponent {
       response => {
 
         
-        console.log("The response is ", response.token );
         
         this.localService.saveData("token", String(response.token));
         this.localService.saveData("username", String(response.username));
