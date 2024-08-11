@@ -9,12 +9,18 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { WebSocketService } from '../../../core/web-socket.service';
 import { Messages } from '../../models/messages';
+import { Notification } from '../../models/notification';
 import { ToastrService } from 'ngx-toastr';
+import { ClientService } from '../../../core/client.service';
+import { NotificationComponent } from '../notification/notification.component';
+import { NotificationService } from '../../../core/notification.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ChatBoxComponent,ChatNavbarComponent, LogoutComponent, ProfileComponent, RouterModule],
+  imports: [CommonModule, ChatBoxComponent,ChatNavbarComponent, 
+            LogoutComponent, ProfileComponent, RouterModule, 
+            NotificationComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -35,7 +41,9 @@ export class HomeComponent implements OnInit {
   recentTimeStamp!: Date;
 
   constructor(private localService: LocalService, 
+              private clientService: ClientService,
               private webSocketService: WebSocketService,
+              private notificationService: NotificationService,
               private toastr: ToastrService){
 
     this.chatMessageList = [];
@@ -60,9 +68,24 @@ export class HomeComponent implements OnInit {
     this.clientId = this.localService.getData("id");
     this.webSocketService.connect(this.localService.getData("id"));
 
-    this.webSocketService.getMessages().subscribe((message:Messages) => {
+    this.webSocketService.getMessages().subscribe((message:any) => {
       if(this.targetId == ''){
-        this.showSuccess("New Message");
+        this.clientService.getByClientId(message.senderClientId).subscribe(
+          (response:any)=>{
+            const senderName = response.data.firstName + " " + response.data.lastName;
+
+          //   const notification: Notification = {
+          //     message: message
+          // }
+            
+          // this.notificationService.saveNotification(message).subscribe((response:any)=>{
+          //   this.notificationService.notificationList.unshift(response.data);
+          // })
+
+            this.showSuccess("New Message from " + senderName);
+          
+        }) 
+        
       }
     });
 
@@ -119,8 +142,5 @@ export class HomeComponent implements OnInit {
     this.toastr.success(msg);
   }
 
-  // showError(msg:string){
-  //   this.toastr.error(msg);
-  // }
 
 }

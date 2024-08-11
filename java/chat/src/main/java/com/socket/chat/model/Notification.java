@@ -2,6 +2,7 @@ package com.socket.chat.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 
@@ -10,18 +11,15 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-//@Inheritance(strategy = InheritanceType.JOINED)
-public class Client {
+@Builder
+public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    String firstName;
-    String lastName;
+    @OneToOne
+    ChatMessage message;
 
-    public Client(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+
 }

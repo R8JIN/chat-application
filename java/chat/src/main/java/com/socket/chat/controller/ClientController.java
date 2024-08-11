@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/client")
@@ -33,4 +34,13 @@ public class ClientController extends BaseController{
         }
         return ResponseEntity.ok(buildResponse(clientList));
     }
+
+    @GetMapping("/by-id")
+    public ResponseEntity<Object> getById(@RequestParam Long id){
+
+        Optional<ClientDto> clientDto = clientService.getClientById(id);
+        return ResponseEntity.ok(buildResponse(clientDto));
+
+    }
+
 }

@@ -2,6 +2,9 @@ package com.socket.chat.handler;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.socket.chat.model.ChatMessage;
+
+import com.socket.chat.model.Notification;
+import com.socket.chat.repository.NotificationRepository;
 import com.socket.chat.service.ChatMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.CloseStatus;
@@ -13,9 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class WebSocketHandler extends TextWebSocketHandler {
 
@@ -24,6 +25,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Autowired
     private ChatMessageService chatMessageService;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -48,12 +52,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
         WebSocketSession targetSession = sessions.get(targetClientId);
 
-        if (targetSession == null || !targetSession.isOpen()) {
-            System.out.println("Socket for targetClientId " + targetClientId + " is closed or does not exist.");
-            // TODO: Notification
-        }
-
-
         ChatMessage chatMessage = ChatMessage.builder()
                 .senderClientId(senderClientId)
                 .targetClientId(targetClientId)
@@ -61,6 +59,18 @@ public class WebSocketHandler extends TextWebSocketHandler {
                 .messageTimeStamp(LocalDateTime.now()).build();
 
         chatMessageService.saveMessage(chatMessage);
+
+        if (targetSession == null || !targetSession.isOpen()) {
+            System.out.println("Socket for targetClientId " + targetClientId + " is closed or does not exist.");
+            // TODO: Notification
+
+            Notification  notification = Notification.builder().build();
+            notification.setMessage(chatMessage);
+            notificationRepository.save(notification);
+
+        }
+
+
 
         if (targetSession != null && targetSession.isOpen()) {
             ObjectNode responseNode = objectMapper.createObjectNode();

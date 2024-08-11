@@ -1,0 +1,13 @@
+
+<div class="dropdown">
+    <button class="btn btn-success" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i *ngIf="notifications.length>0" class="fa-solid fa-bell fa-lg" style="color: #ffffff;">
+            <sup class="text-danger">{{notifications.length}}</sup>
+        </i>    
+        <i *ngIf="notifications.length==0" class="fa-solid fa-bell fa-lg" style="color: #f1eaea;"></i> 
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a *ngFor="let notification of notifications" class="dropdown-item" [routerLink]="['/']">New message from {{notification.message.senderClientId}}</a>
+        
+    </div>
+</div>

@@ -30,7 +30,7 @@
     </tbody>
     <tbody *ngIf="filteredClientList.length > 0" >
         <tr *ngFor="let client of filteredClientList" class="p-2 m-2"  (click)="sendMessage(client)"> 
-            <td [appHighlight]="'lightgray'" [ngClass]="{'highlight': selectedName === client.firstName}" >
+            <td [appHighlight]="'lightgreen'" [ngClass]="{'highlight': selectedName === client.firstName}" >
                 <p>{{client.firstName}} {{client.lastName}}</p>
             </td>     
         </tr>
