@@ -29,6 +29,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String clientId = getClientId(session);
         sessions.put(clientId, session);
+         
     }
 
     @Override
@@ -46,6 +47,12 @@ public class WebSocketHandler extends TextWebSocketHandler {
         String textMessage = jsonNode.get("message").asText();
 
         WebSocketSession targetSession = sessions.get(targetClientId);
+
+        if (targetSession == null || !targetSession.isOpen()) {
+            System.out.println("Socket for targetClientId " + targetClientId + " is closed or does not exist.");
+            // TODO: Notification
+        }
+
 
         ChatMessage chatMessage = ChatMessage.builder()
                 .senderClientId(senderClientId)
@@ -69,8 +76,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     }
 
     private String getClientId(WebSocketSession session) {
-        // Extract client ID from the session, this could be a query parameter or a header
-        // For this example, we assume client ID is passed as a query parameter
+
         String uri = session.getUri().toString();
         return uri.substring(uri.lastIndexOf('=') + 1);
     }
