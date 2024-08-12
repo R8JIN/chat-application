@@ -10,6 +10,7 @@ import { LocalService } from '../../../core/local.service';
 import { TimestampComponent } from '../timestamp/timestamp.component';
 import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../../core/client.service';
+import { NotificationService } from '../../../core/notification.service';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ChatBoxComponent  {
   
   chatMessageService = inject(ChatMessageService)
   localService = inject(LocalService)
-  clientId: string = '';
+  
   notificationCount: number = 0;
 
   @Input() targetFirstName: string = '';
@@ -32,21 +33,21 @@ export class ChatBoxComponent  {
 
   targetId: string = '';
   messageInput!: string;
+  clientId: string = '';
 
   @Input() chatMessageList:any = [];
   @Input() messageTimeStampList: Date[] = [];
   @Input() recentTimeStamp!: Date;
   
   messageList: any = [];
-
   messages: Messages[] = [];
   sent: string[] = [];
 
   dateToday: any;
 
-
   constructor(private toastr: ToastrService, 
               private clientService: ClientService,
+              private notificationService: NotificationService,
               private webSocketService: WebSocketService) {
     
     this.dateToday = Date.now().toString();
@@ -71,8 +72,11 @@ export class ChatBoxComponent  {
         else{
           this.clientService.getByClientId(message.senderClientId).subscribe((response:any)=>{
             const senderName = response.data.firstName + " " + response.data.lastName;
-            console.log('New Message from ', senderName);
-            this.notificationCount++;
+
+            this.notificationService.saveNotification(message).subscribe((response:any)=>{
+              this.notificationService.notificationList.unshift(response.data);
+            })
+  
             this.showSuccess("New Message from " + senderName);
           }) 
           
@@ -88,7 +92,6 @@ export class ChatBoxComponent  {
     if (changes['targetClientId']) {
       this.messages = [];
       this.targetId = this.targetClientId
-     
 
     }
   }

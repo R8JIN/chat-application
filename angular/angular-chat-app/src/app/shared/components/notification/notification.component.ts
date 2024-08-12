@@ -13,52 +13,55 @@ import { CommonModule } from '@angular/common';
 })
 export class NotificationComponent implements OnInit{
 
-  @Input() newNotifications:any = [];
-  oldNotifications: any = [];
-  count: number = 0;
+  @Input() count:number = 0;
+
+  notifications: any = [];
   constructor(private notificationService: NotificationService, 
               private localService:LocalService){
-    this.oldNotifications = [];
 
   }
 
   ngOnInit(){
     this.notificationService.getClientsNotification(this.localService.getData("id"))
     .subscribe((response:any) =>{
-        console.log("the notification is ", response.data);
-        this.oldNotifications = response.data.reverse();
-        const notifications = this.newNotifications;
-        const oldNotificationCount = this.oldNotifications.filter((value:any) => value.isSeen !== true).length;
-        const newNotificationsCount = notifications.filter((value:any) =>value.isSeen !== true).length;
-
-        this.count = oldNotificationCount + newNotificationsCount;
-        console.log("The message count is ", this.count);
-        // this.notificationService.notificationList = this.notifications;
+      
+        this.notificationService.notificationList = this.notifications = response.data.reverse();
 
     })
   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    
-    if (changes['newNotifications']) {
-      console.log("The value");
-      const oldNotificationCount = this.oldNotifications.filter((value:any) => value.isSeen !== true).length;
-      const newNotificationsCount = this.newNotifications.filter((value:any) =>value.isSeen !== true).length;
-      this.count = oldNotificationCount + newNotificationsCount;
 
-    }
+      if(changes['count']){
 
-  }
-
-  getNotification(){
+        this.notifications = this.notificationService.notificationList;
+        this.count = this.notificationService.notificationList.filter((value:any) => value.isSeen !== true).length;
+        console.log("The value change count", this.count);
+      }
 
   }
+
+  // seenNewNotification(id:number){
+  //   this.notificationService.notificationSeen(id).subscribe((response:any)=>{
+  //         const item = this.newNotifications.find((i:any) => i.id === id);
+  //         if (item) {
+  //           item.isSeen = true;
+  //         }
+  //         console.log("The new notifications ", this.newNotifications);
+  //     });
+  // }
+
 
   seen(id:number){
     this.notificationService.notificationSeen(id).subscribe((response:any)=>
     {
-        console.log("The response is ", response);
+        const item = this.notifications.find((i:any) => i.id === id);
+        if (item) {
+          item.isSeen = true;
+        }
+        this.count = this.notifications.filter((value:any) => value.isSeen !== true).length;
+        console.log("The new notifications ", this.notifications);
     }
     )
   }

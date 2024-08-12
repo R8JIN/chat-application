@@ -1,29 +1,32 @@
 
 <div class="dropdown">
     <button class="btn btn-success" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i *ngIf="count>0" class="fa-solid fa-bell fa-lg" style="color: #ffffff;">
-            <sup class="text-danger">{{count}}</sup>
-        </i>    
-        <i *ngIf="count==0" class="fa-solid fa-bell fa-lg" style="color: #f1eaea;"></i> 
+        
+        <i *ngIf="count>0" class="fa-solid fa-message " style="color: #ffffff;">
+            <sup class="mx-2 text-danger">{{count}}</sup>
+        </i>  
+ 
+        <i *ngIf="count==0" class="fa-solid fa-message" style="color: #ffffff;"></i>
     </button>
     <div class="dropdown-menu my-2" aria-labelledby="dropdownMenuButton">
-        <li *ngFor="let newNotification of newNotifications" class="dropdown-item" (click)="seen(newNotification.id)">
-            <b *ngIf="!newNotification.isSeen"> 
-                New message from {{newNotification.message.senderClientId}}
+
+        <!-- <li  class="dropdown-item">
+            <small *ngIf="notifications.length == 0">No New Messages</small>
+        </li> -->
+
+        <li  *ngFor="let notification of notifications" class="dropdown-item" (click)="seen(notification.id)">
+            <b *ngIf="!notification.isSeen"> 
+                New message from {{notification.message.senderClientId}}
             </b>
-            <div *ngIf="newNotification.isSeen">
-             New message from {{newNotification.message.senderClientId}}
+            <div *ngIf="notification.isSeen">
+             New message from {{notification.message.senderClientId}}
             </div>
         </li>
 
-        <li *ngFor="let oldNotification of oldNotifications" class="dropdown-item" (click)="seen(oldNotification.id)">
-            <b *ngIf="!oldNotification.isSeen"> 
-                New message from {{oldNotification.message.senderClientId}}
-            </b>
-            <div *ngIf="oldNotification.isSeen">
-             New message from {{oldNotification.message.senderClientId}}
-            </div>
-        </li>
+
+    
+        
+        
         
     </div>
 </div>

@@ -8,9 +8,11 @@ import { Messages } from '../shared/models/messages';
   providedIn: 'root'
 })
 export class NotificationService {
-  localService = inject(LocalService);
 
-  notificationList:any = []
+  localService = inject(LocalService);
+  notificationList:any = [];
+  count: number = 0;
+  
   apiUrl = "http://localhost:8080/api/v1/notification"
   constructor(private http:HttpClient) { }
 
@@ -31,7 +33,8 @@ export class NotificationService {
       'Authorization': `Bearer ${token}`
     });
     const body = {
-      'message':message
+      'message':message,
+      'isSeen': false
     }
 
     console.log("Payload is ", message);

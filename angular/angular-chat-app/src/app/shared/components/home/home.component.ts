@@ -25,15 +25,17 @@ import { NotificationService } from '../../../core/notification.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
+ 
   targetId: string= '';
   targetFirstName: string = '';
   clientId: string = '';
-  logged: boolean = true;
-  
-
   username: string = '';
   firstName: string = '';
   lastName: string = '';
+
+  count: number = 0;
+  logged: boolean = true;
+
 
   chatMessageService = inject(ChatMessageService);
   chatMessageList: any = [];
@@ -81,7 +83,9 @@ export class HomeComponent implements OnInit {
           }
             
           this.notificationService.saveNotification(message).subscribe((response:any)=>{
-            this.newNotifications.unshift(response.data);
+            
+            this.notificationService.notificationList.unshift(response.data);
+            this.count = this.notificationService.notificationList.filter((value:any) => value.isSeen !== true).length;
           })
 
             this.showSuccess("New Message from " + senderName);

@@ -14,12 +14,12 @@
 
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
-                    <app-notification [newNotifications]="newNotifications"></app-notification>
+                    <app-notification [count]="count"></app-notification>
                 </li>
                 <li class="nav-item dropdown">
                     <div class="dropdown">
                         <button class="btn btn-success" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa-solid fa-circle-user" style="color: #fafcff;"> {{username}} </i>    
+                            <i class="fa-solid fa-circle-user " style="color: #fafcff;"> {{username}} </i>    
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" [routerLink]="['/profile']">Profile</a>
