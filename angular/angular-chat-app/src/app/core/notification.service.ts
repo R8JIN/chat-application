@@ -37,4 +37,14 @@ export class NotificationService {
     console.log("Payload is ", message);
     return this.http.post<any>(this.apiUrl, JSON.stringify(body), {headers:header})
   }
+
+  notificationSeen(id:any): Observable<any>{
+    console.log("The id is", id);
+    const token = this.localService.getData('token');
+    const header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.patch<any>(this.apiUrl +"/seen?id=" + id,null, {headers:header} )
+  }
 }

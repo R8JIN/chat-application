@@ -115,11 +115,11 @@ export class ChatBoxComponent  {
     if (this.targetClientId && this.messageInput) {
       this.webSocketService.sendMessage(this.clientId, this.targetClientId, this.messageInput);
       const sentMessage: Messages = {
-        id: 0,
         senderClientId: this.clientId,
         targetClientId: this.targetClientId,
         message: this.messageInput,
-        messageTimeStamp: Date.now().toString()
+        messageTimeStamp: Date.now().toString(),
+        id: 0
       }
       this.sent.push(this.messageInput);
       this.messages.push(sentMessage);

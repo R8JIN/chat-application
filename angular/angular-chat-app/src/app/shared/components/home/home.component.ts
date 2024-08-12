@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit {
   chatMessageList: any = [];
   messageTimeStampList: Date[] = [];
   recentTimeStamp!: Date;
+  newNotifications:any = []
 
   constructor(private localService: LocalService, 
               private clientService: ClientService,
@@ -48,6 +49,7 @@ export class HomeComponent implements OnInit {
 
     this.chatMessageList = [];
     this.messageTimeStampList = [];
+    this.newNotifications = [];
     
     if(this.localService.getData("id")){
       
@@ -74,13 +76,13 @@ export class HomeComponent implements OnInit {
           (response:any)=>{
             const senderName = response.data.firstName + " " + response.data.lastName;
 
-          //   const notification: Notification = {
-          //     message: message
-          // }
+            const notification: Notification = {
+              message: message
+          }
             
-          // this.notificationService.saveNotification(message).subscribe((response:any)=>{
-          //   this.notificationService.notificationList.unshift(response.data);
-          // })
+          this.notificationService.saveNotification(message).subscribe((response:any)=>{
+            this.newNotifications.unshift(response.data);
+          })
 
             this.showSuccess("New Message from " + senderName);
           

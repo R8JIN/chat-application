@@ -21,5 +21,7 @@ public class Notification {
     @OneToOne
     ChatMessage message;
 
+    Boolean isSeen;
+
 
 }
