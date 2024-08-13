@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
     this.clientId = this.localService.getData("id");
     this.webSocketService.connect(this.localService.getData("id"));
     this.sharedService.currentValue.subscribe((data:any)=>{
-      if(data){
+      if(data?.id != null){
         this.addItem(data);
       }
     })
