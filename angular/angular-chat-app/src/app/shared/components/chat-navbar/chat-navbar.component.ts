@@ -47,7 +47,7 @@ export class ChatNavbarComponent {
     this.selectedName = targetClient.firstName;
     // this.messageEvent.emit(targetClient);
     console.log("The value ", targetClient);
-    this.sharedService.setTargetClientId(targetClient.id)
+    this.sharedService.setTargetClientId(targetClient);
 
     // const indexToRemove = this.filteredClientList.indexOf(targetClient);
 

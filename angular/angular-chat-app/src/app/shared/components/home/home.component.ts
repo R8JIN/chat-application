@@ -103,11 +103,11 @@ export class HomeComponent implements OnInit {
 
   }
 
-  addItem(data:string){
+  addItem(data:any){
 
-    this.targetId = data;
+    this.targetId = data.id;
 
-    this.targetFirstName = 'demo';
+    this.targetFirstName = data.firstName;
     
     this.chatMessageList = [];
     this.messageTimeStampList = [];

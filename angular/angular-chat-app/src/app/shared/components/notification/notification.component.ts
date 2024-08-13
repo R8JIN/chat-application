@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { takeUntil } from 'rxjs';
 import { SharedService } from '../../services/shared.service';
 import { Notification } from '../../models/notification';
+import { ClientService } from '../../../core/client.service';
 
 @Component({
   selector: 'app-notification',
@@ -21,6 +22,7 @@ export class NotificationComponent implements OnInit{
   notifications: any = [];
   constructor(private notificationService: NotificationService,
               private sharedService: SharedService, 
+              private clientService: ClientService,
               private localService:LocalService){
 
   }
@@ -64,8 +66,11 @@ export class NotificationComponent implements OnInit{
       }
       )
     }
-    // console.log("The item client id ", item.message.targetClientId);
-    this.sharedService.setTargetClientId(item.message.senderClientId);
+    this.clientService.getByClientId(item.message.senderClientId).subscribe((response:any)=>{
+      console.log("The message item", response);
+      this.sharedService.setTargetClientId(response.data);
+    })
+    
     
   }
 }
