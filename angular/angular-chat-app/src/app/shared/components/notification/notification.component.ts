@@ -4,6 +4,8 @@ import { LocalService } from '../../../core/local.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { takeUntil } from 'rxjs';
+import { SharedService } from '../../services/shared.service';
+import { Notification } from '../../models/notification';
 
 @Component({
   selector: 'app-notification',
@@ -17,7 +19,8 @@ export class NotificationComponent implements OnInit{
   count:number = 0;
 
   notifications: any = [];
-  constructor(private notificationService: NotificationService, 
+  constructor(private notificationService: NotificationService,
+              private sharedService: SharedService, 
               private localService:LocalService){
 
   }
@@ -49,17 +52,20 @@ export class NotificationComponent implements OnInit{
 
   seen(id:number){
 
+    let item: Notification;
+    item = this.notifications.find((i:any) => i.id === id);
+    if (item) {
+      item.isSeen = true;
+    }
     if(!this.notifications.isSeen){
       this.notificationService.notificationSeen(id).subscribe((response:any)=>
       {
-          const item = this.notifications.find((i:any) => i.id === id);
-          if (item) {
-            item.isSeen = true;
-          }
           this.count = this.notifications.filter((value:any) => value.isSeen !== true).length;
-          // console.log("The new notifications ", this.notifications);
       }
       )
     }
+    // console.log("The item client id ", item.message.targetClientId);
+    this.sharedService.setTargetClientId(item.message.senderClientId);
+    
   }
 }

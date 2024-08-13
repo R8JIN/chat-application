@@ -2,5 +2,6 @@ import { Messages } from "./messages";
 
 export interface Notification {
     // id:number,
-    message:Messages
+    message:Messages,
+    isSeen: boolean,
 }

@@ -4,6 +4,7 @@ import { ChatMessageService } from '../../../core/chat-message.service';
 import { ClientService } from '../../../core/client.service';
 import { error } from 'console';
 import { HighlightDirective } from '../../directives/highlight.directive';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-chat-navbar',
@@ -27,9 +28,9 @@ export class ChatNavbarComponent {
   clientList: any = [];
   chatMessageList: any = [];
 
-  @Output() messageEvent = new EventEmitter<any>();
+  // @Output() messageEvent = new EventEmitter<any>();
 
-  constructor() {
+  constructor(private sharedService:SharedService) {
     this.clientService.getClients().subscribe(response=>{
      
       this.clientList = response.data;
@@ -44,7 +45,9 @@ export class ChatNavbarComponent {
 
   sendMessage(targetClient:any) {
     this.selectedName = targetClient.firstName;
-    this.messageEvent.emit(targetClient);
+    // this.messageEvent.emit(targetClient);
+    console.log("The value ", targetClient);
+    this.sharedService.setTargetClientId(targetClient.id)
 
     // const indexToRemove = this.filteredClientList.indexOf(targetClient);
 

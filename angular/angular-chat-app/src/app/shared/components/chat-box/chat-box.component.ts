@@ -11,6 +11,7 @@ import { TimestampComponent } from '../timestamp/timestamp.component';
 import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../../core/client.service';
 import { NotificationService } from '../../../core/notification.service';
+import { SharedService } from '../../services/shared.service';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class ChatBoxComponent  {
 
   @Input() targetFirstName: string = '';
   @Input() targetClientId : string = '';
-
+  
   targetId: string = '';
   messageInput!: string;
   clientId: string = '';
@@ -51,17 +52,18 @@ export class ChatBoxComponent  {
               private webSocketService: WebSocketService) {
     
     this.dateToday = Date.now().toString();
-    
+  
+    console.log("The response message is", this.targetClientId);
   }
 
 
   ngOnInit(): void {
+
     if (this.localService.getData("id")) {
       this.messages= [];
-
-      this.clientId = this.localService.getData("id");
-      // this.webSocketService.connect(this.localService.getData("id"));
       
+      this.clientId = this.localService.getData("id");
+
       console.log("The client id is ", this.localService.getData("id") );
       this.webSocketService.getMessages().subscribe((message:Messages) => {
 
@@ -98,23 +100,6 @@ export class ChatBoxComponent  {
     }
   }
 
-
-
-  connect(): void {
-
-    this.messages = [];
-    if (this.clientId) {
-      this.webSocketService.connect(this.clientId);
-      console.log("The client id is ", this.clientId );
-      this.webSocketService.getMessages().subscribe((response:Messages) => {;
-
-        this.messages.push(response);
-        this.messages = [];
-      
-      });
-
-    }
-  }
 
   sendMessage(): void {
     if (this.targetClientId && this.messageInput) {

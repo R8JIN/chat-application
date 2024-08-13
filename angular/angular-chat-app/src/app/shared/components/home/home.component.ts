@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../../core/client.service';
 import { NotificationComponent } from '../notification/notification.component';
 import { NotificationService } from '../../../core/notification.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private localService: LocalService, 
               private clientService: ClientService,
+              private sharedService: SharedService,
               private webSocketService: WebSocketService,
               private notificationService: NotificationService,
               private toastr: ToastrService){
@@ -60,6 +62,7 @@ export class HomeComponent implements OnInit {
       this.firstName = this.localService.getData("firstName");
       this.lastName = this.localService.getData("lastName");
       
+      
     }
     else{
       this.logged = false;
@@ -71,7 +74,11 @@ export class HomeComponent implements OnInit {
 
     this.clientId = this.localService.getData("id");
     this.webSocketService.connect(this.localService.getData("id"));
-
+    this.sharedService.currentValue.subscribe((data:any)=>{
+      if(data){
+        this.addItem(data);
+      }
+    })
     this.webSocketService.getMessages().subscribe((message:any) => {
       if(this.targetId == ''){
         this.clientService.getByClientId(message.senderClientId).subscribe(
@@ -79,13 +86,12 @@ export class HomeComponent implements OnInit {
             const senderName = response.data.firstName + " " + response.data.lastName;
 
             const notification: Notification = {
-              message: message
+              message: message,
+              isSeen: false
           }
             
-          this.notificationService.saveNotification(message).subscribe((response:any)=>{
-            
+          this.notificationService.saveNotification(message).subscribe((response:any)=>{ 
             this.notificationService.addItem(response.data);
-            // this.count = this.notificationService.notificationList.filter((value:any) => value.isSeen !== true).length;
           })
 
             this.showSuccess("New Message from " + senderName);
@@ -97,21 +103,22 @@ export class HomeComponent implements OnInit {
 
   }
 
-  addItem(data:any){
+  addItem(data:string){
 
-    this.targetId = data.id;
-    this.targetFirstName = data.firstName;
+    this.targetId = data;
+
+    this.targetFirstName = 'demo';
     
     this.chatMessageList = [];
     this.messageTimeStampList = [];
     
     if(this.localService.getData("id")){
-    
+      
       this.chatMessageService.getMessage(this.localService.getData("id"), this.targetId,
        this.localService.getData("token")).subscribe(
         response => {
           this.chatMessageList = response.data;
-          
+
           const messageList = response.data;
           const dateList: Date[] = [];
           
