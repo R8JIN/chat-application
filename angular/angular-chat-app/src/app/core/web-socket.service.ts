@@ -10,6 +10,7 @@ export class WebSocketService {
   private socket!: WebSocket;
   private messageSubject: Subject<Messages> = new Subject();
 
+  
   constructor() { }
 
   public connect(clientId: string): void {
@@ -43,5 +44,12 @@ export class WebSocketService {
 
   public getMessages():Observable<Messages> {
     return this.messageSubject.asObservable();
+  }
+
+  public close(): void {
+    if (this.socket) {
+      this.socket.close();
+      console.log('WebSocket connection closed by client');
+    }
   }
 }

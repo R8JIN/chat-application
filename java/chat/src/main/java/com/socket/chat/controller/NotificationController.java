@@ -45,4 +45,12 @@ public class NotificationController extends BaseController {
         return ResponseEntity.ok(buildResponse(notificationList));
     }
 
+    @PatchMapping("/seen")
+    public ResponseEntity<Object> notificationSeen(@RequestParam Long id){
+
+        Notification notification = notificationService.notificationSeen(id);
+        return ResponseEntity.ok(buildResponse(notification));
+
+    }
+
 }

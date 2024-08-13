@@ -10,6 +10,8 @@ import { LocalService } from '../../../core/local.service';
 import { TimestampComponent } from '../timestamp/timestamp.component';
 import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../../core/client.service';
+import { NotificationService } from '../../../core/notification.service';
+import { SharedService } from '../../services/shared.service';
 
 
 @Component({
@@ -24,43 +26,44 @@ export class ChatBoxComponent  {
   
   chatMessageService = inject(ChatMessageService)
   localService = inject(LocalService)
-  clientId: string = '';
+  
   notificationCount: number = 0;
 
   @Input() targetFirstName: string = '';
   @Input() targetClientId : string = '';
-
+  
   targetId: string = '';
   messageInput!: string;
+  clientId: string = '';
 
   @Input() chatMessageList:any = [];
   @Input() messageTimeStampList: Date[] = [];
   @Input() recentTimeStamp!: Date;
   
   messageList: any = [];
-
   messages: Messages[] = [];
-  sent: string[] = [];
+  // sent: string[] = [];
 
   dateToday: any;
 
-
   constructor(private toastr: ToastrService, 
               private clientService: ClientService,
+              private notificationService: NotificationService,
               private webSocketService: WebSocketService) {
     
     this.dateToday = Date.now().toString();
-    
+  
+    console.log("The response message is", this.targetClientId);
   }
 
 
   ngOnInit(): void {
+
     if (this.localService.getData("id")) {
       this.messages= [];
-
-      this.clientId = this.localService.getData("id");
-      this.webSocketService.connect(this.localService.getData("id"));
       
+      this.clientId = this.localService.getData("id");
+
       console.log("The client id is ", this.localService.getData("id") );
       this.webSocketService.getMessages().subscribe((message:Messages) => {
 
@@ -69,10 +72,15 @@ export class ChatBoxComponent  {
           console.log("The socket message new", this.messages);
         }
         else{
-          this.clientService.getByClientId(message.senderClientId).subscribe((response:any)=>{
+          this.clientService.getByClientId(message.senderClientId)
+          .subscribe((response: any) => {
             const senderName = response.data.firstName + " " + response.data.lastName;
-            console.log('New Message from ', senderName);
-            this.notificationCount++;
+
+            this.notificationService.saveNotification(message)
+            .subscribe((response:any)=>{
+              this.notificationService.addItem(response.data);
+            })
+  
             this.showSuccess("New Message from " + senderName);
           }) 
           
@@ -88,40 +96,22 @@ export class ChatBoxComponent  {
     if (changes['targetClientId']) {
       this.messages = [];
       this.targetId = this.targetClientId
-     
 
     }
   }
 
-
-
-  connect(): void {
-
-    this.messages = [];
-    if (this.clientId) {
-      this.webSocketService.connect(this.clientId);
-      console.log("The client id is ", this.clientId );
-      this.webSocketService.getMessages().subscribe((response:Messages) => {;
-
-        this.messages.push(response);
-        this.messages = [];
-      
-      });
-
-    }
-  }
 
   sendMessage(): void {
     if (this.targetClientId && this.messageInput) {
       this.webSocketService.sendMessage(this.clientId, this.targetClientId, this.messageInput);
       const sentMessage: Messages = {
-        id: 0,
         senderClientId: this.clientId,
         targetClientId: this.targetClientId,
         message: this.messageInput,
-        messageTimeStamp: Date.now().toString()
+        messageTimeStamp: Date.now().toString(),
+        id: 0
       }
-      this.sent.push(this.messageInput);
+      // this.sent.push(this.messageInput);
       this.messages.push(sentMessage);
       this.messageInput = '';
     

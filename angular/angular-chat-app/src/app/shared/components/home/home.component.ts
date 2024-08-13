@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../../core/client.service';
 import { NotificationComponent } from '../notification/notification.component';
 import { NotificationService } from '../../../core/notification.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -25,29 +26,34 @@ import { NotificationService } from '../../../core/notification.service';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
+ 
   targetId: string= '';
   targetFirstName: string = '';
   clientId: string = '';
-  logged: boolean = true;
-  
-
   username: string = '';
   firstName: string = '';
   lastName: string = '';
+
+
+  logged: boolean = true;
+
 
   chatMessageService = inject(ChatMessageService);
   chatMessageList: any = [];
   messageTimeStampList: Date[] = [];
   recentTimeStamp!: Date;
+  newNotifications:any = []
 
   constructor(private localService: LocalService, 
               private clientService: ClientService,
+              private sharedService: SharedService,
               private webSocketService: WebSocketService,
               private notificationService: NotificationService,
               private toastr: ToastrService){
 
     this.chatMessageList = [];
     this.messageTimeStampList = [];
+    this.newNotifications = [];
     
     if(this.localService.getData("id")){
       
@@ -55,6 +61,7 @@ export class HomeComponent implements OnInit {
       this.username = this.localService.getData("username");
       this.firstName = this.localService.getData("firstName");
       this.lastName = this.localService.getData("lastName");
+      
       
     }
     else{
@@ -67,20 +74,25 @@ export class HomeComponent implements OnInit {
 
     this.clientId = this.localService.getData("id");
     this.webSocketService.connect(this.localService.getData("id"));
-
+    this.sharedService.currentValue.subscribe((data:any)=>{
+      if(data){
+        this.addItem(data);
+      }
+    })
     this.webSocketService.getMessages().subscribe((message:any) => {
       if(this.targetId == ''){
         this.clientService.getByClientId(message.senderClientId).subscribe(
           (response:any)=>{
             const senderName = response.data.firstName + " " + response.data.lastName;
 
-          //   const notification: Notification = {
-          //     message: message
-          // }
+            const notification: Notification = {
+              message: message,
+              isSeen: false
+          }
             
-          // this.notificationService.saveNotification(message).subscribe((response:any)=>{
-          //   this.notificationService.notificationList.unshift(response.data);
-          // })
+          this.notificationService.saveNotification(message).subscribe((response:any)=>{ 
+            this.notificationService.addItem(response.data);
+          })
 
             this.showSuccess("New Message from " + senderName);
           
@@ -91,21 +103,22 @@ export class HomeComponent implements OnInit {
 
   }
 
-  addItem(data:any){
+  addItem(data:string){
 
-    this.targetId = data.id;
-    this.targetFirstName = data.firstName;
+    this.targetId = data;
+
+    this.targetFirstName = 'demo';
     
     this.chatMessageList = [];
     this.messageTimeStampList = [];
     
     if(this.localService.getData("id")){
-    
+      
       this.chatMessageService.getMessage(this.localService.getData("id"), this.targetId,
        this.localService.getData("token")).subscribe(
         response => {
           this.chatMessageList = response.data;
-          
+
           const messageList = response.data;
           const dateList: Date[] = [];
           

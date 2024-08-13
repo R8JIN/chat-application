@@ -22,12 +22,26 @@ public class NotificationService {
 
     public Notification save(Notification notification){
 
-        return notificationRepository.save(notification);
+        Notification savedNotification = Notification.builder()
+                .message(notification.getMessage())
+                .isSeen(notification.getIsSeen()).build();
+        return notificationRepository.save(savedNotification);
 
     }
 
-    public List<Notification> getAllClientNotification(Long id){
+    public Notification getNotificationById(Long id){
 
-        return notificationRepository.findAll(filterClientNotification(id));
+        return notificationRepository.findById(id).get();
+    }
+
+    public List<Notification> getAllClientNotification(Long clientId){
+
+        return notificationRepository.findAll(filterClientNotification(clientId));
+    }
+
+    public Notification notificationSeen(Long notificationId){
+        Notification notification = getNotificationById(notificationId);
+        notification.setIsSeen(true);
+        return notificationRepository.save(notification);
     }
 }

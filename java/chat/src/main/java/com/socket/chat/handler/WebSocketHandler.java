@@ -58,7 +58,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
                 .message(textMessage)
                 .messageTimeStamp(LocalDateTime.now()).build();
 
-        chatMessageService.saveMessage(chatMessage);
+        ChatMessage savedChatMessage= chatMessageService.saveMessage(chatMessage);
 
         if (targetSession == null || !targetSession.isOpen()) {
             System.out.println("Socket for targetClientId " + targetClientId + " is closed or does not exist.");
@@ -66,6 +66,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
             Notification  notification = Notification.builder().build();
             notification.setMessage(chatMessage);
+            notification.setIsSeen(false);
             notificationRepository.save(notification);
 
         }
@@ -75,6 +76,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         if (targetSession != null && targetSession.isOpen()) {
             ObjectNode responseNode = objectMapper.createObjectNode();
 
+            responseNode.put("id", savedChatMessage.getId());
             responseNode.put("senderClientId", senderClientId);
             responseNode.put("message", textMessage);
             responseNode.put("targetClientId", targetClientId);
