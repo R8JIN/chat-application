@@ -7,6 +7,7 @@
 ![image](https://github.com/user-attachments/assets/643ff80c-4ea6-4de5-a5f1-b2ec84de27f3)
 
 ### Home Page
-![image](https://github.com/user-attachments/assets/76bd0858-4c1c-469f-958a-1d56c62c4e4f)
+![image](https://github.com/user-attachments/assets/eac31a83-17f3-43c1-928a-b5a46f5a15bc)
+
 
 
