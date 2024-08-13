@@ -41,7 +41,7 @@ export class ChatBoxComponent  {
   
   messageList: any = [];
   messages: Messages[] = [];
-  sent: string[] = [];
+  // sent: string[] = [];
 
   dateToday: any;
 
@@ -60,7 +60,7 @@ export class ChatBoxComponent  {
       this.messages= [];
 
       this.clientId = this.localService.getData("id");
-      this.webSocketService.connect(this.localService.getData("id"));
+      // this.webSocketService.connect(this.localService.getData("id"));
       
       console.log("The client id is ", this.localService.getData("id") );
       this.webSocketService.getMessages().subscribe((message:Messages) => {
@@ -70,11 +70,13 @@ export class ChatBoxComponent  {
           console.log("The socket message new", this.messages);
         }
         else{
-          this.clientService.getByClientId(message.senderClientId).subscribe((response:any)=>{
+          this.clientService.getByClientId(message.senderClientId)
+          .subscribe((response: any) => {
             const senderName = response.data.firstName + " " + response.data.lastName;
 
-            this.notificationService.saveNotification(message).subscribe((response:any)=>{
-              this.notificationService.notificationList.unshift(response.data);
+            this.notificationService.saveNotification(message)
+            .subscribe((response:any)=>{
+              this.notificationService.addItem(response.data);
             })
   
             this.showSuccess("New Message from " + senderName);
@@ -124,7 +126,7 @@ export class ChatBoxComponent  {
         messageTimeStamp: Date.now().toString(),
         id: 0
       }
-      this.sent.push(this.messageInput);
+      // this.sent.push(this.messageInput);
       this.messages.push(sentMessage);
       this.messageInput = '';
     

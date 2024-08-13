@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { LocalService } from './local.service';
 import { Messages } from '../shared/models/messages';
 
@@ -12,7 +12,22 @@ export class NotificationService {
   localService = inject(LocalService);
   notificationList:any = [];
   count: number = 0;
+  private notificationListSubject = new BehaviorSubject<any>([]);
+
+  setData(data: any): void {
+    this.notificationListSubject.next([...data]);
+  }
   
+
+  addItem(newItem: any) {
+    const currentArray = this.notificationListSubject.value;
+    this.notificationListSubject.next([newItem, ...currentArray]);
+  }
+
+  getData$(): Observable<any> {
+    return this.notificationListSubject.asObservable();
+  }
+
   apiUrl = "http://localhost:8080/api/v1/notification"
   constructor(private http:HttpClient) { }
 

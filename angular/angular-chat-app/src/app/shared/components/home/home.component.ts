@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   firstName: string = '';
   lastName: string = '';
 
-  count: number = 0;
+
   logged: boolean = true;
 
 
@@ -84,8 +84,8 @@ export class HomeComponent implements OnInit {
             
           this.notificationService.saveNotification(message).subscribe((response:any)=>{
             
-            this.notificationService.notificationList.unshift(response.data);
-            this.count = this.notificationService.notificationList.filter((value:any) => value.isSeen !== true).length;
+            this.notificationService.addItem(response.data);
+            // this.count = this.notificationService.notificationList.filter((value:any) => value.isSeen !== true).length;
           })
 
             this.showSuccess("New Message from " + senderName);

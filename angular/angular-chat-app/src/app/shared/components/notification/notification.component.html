@@ -3,15 +3,17 @@
     <button class="btn btn-success" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         
         <i *ngIf="count>0" class="fa-solid fa-message " style="color: #ffffff;">
-            <sup class="mx-2 text-danger">{{count}}</sup>
+            <sup class="m-1 px-2 py-1 text-white bg-danger rounded-circle">
+                <small>{{count}}</small>
+            </sup>
         </i>  
  
         <i *ngIf="count==0" class="fa-solid fa-message" style="color: #ffffff;"></i>
     </button>
     <div class="dropdown-menu my-2" aria-labelledby="dropdownMenuButton">
 
-        <!-- <li  class="dropdown-item">
-            <small *ngIf="notifications.length == 0">No New Messages</small>
+        <!-- <li *ngIf="notifications.length == 0"  class="dropdown-item">
+            <small >No New Messages</small>
         </li> -->
 
         <li  *ngFor="let notification of notifications" class="dropdown-item" (click)="seen(notification.id)">

@@ -22,7 +22,10 @@ public class NotificationService {
 
     public Notification save(Notification notification){
 
-        return notificationRepository.save(notification);
+        Notification savedNotification = Notification.builder()
+                .message(notification.getMessage())
+                .isSeen(notification.getIsSeen()).build();
+        return notificationRepository.save(savedNotification);
 
     }
 
