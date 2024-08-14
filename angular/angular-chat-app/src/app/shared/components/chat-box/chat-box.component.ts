@@ -12,12 +12,14 @@ import { ToastrService } from 'ngx-toastr';
 import { ClientService } from '../../../core/client.service';
 import { NotificationService } from '../../../core/notification.service';
 import { SharedService } from '../../services/shared.service';
+import { WeekPipe } from '../../pipes/week.pipe';
+import { NotificationSoundService } from '../../services/notification-sound.service';
 
 
 @Component({
   selector: 'app-chat-box',
   standalone: true,
-  imports: [CommonModule, FormsModule, MessageComponent,
+  imports: [CommonModule, FormsModule, MessageComponent, WeekPipe,
             TimestampComponent],
   templateUrl: './chat-box.component.html',
   styleUrl: './chat-box.component.css'
@@ -49,6 +51,7 @@ export class ChatBoxComponent  {
   constructor(private toastr: ToastrService, 
               private clientService: ClientService,
               private notificationService: NotificationService,
+              private notificationSoundService:NotificationSoundService,
               private webSocketService: WebSocketService) {
     
     this.dateToday = Date.now().toString();
@@ -80,7 +83,7 @@ export class ChatBoxComponent  {
             .subscribe((response:any)=>{
               this.notificationService.addItem(response.data);
             })
-  
+            this.notificationSoundService.playSound();
             this.showSuccess("New Message from " + senderName);
           }) 
           

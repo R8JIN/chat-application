@@ -11,10 +11,12 @@ public class BaseController {
         if(o !=  null) {
             response.put("success", true);
             response.put("data", o);
+
             return response;
         }
         response.put("success", false);
         response.put("data", null);
+        
         return response;
     }
 }

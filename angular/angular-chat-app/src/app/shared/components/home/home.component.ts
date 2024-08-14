@@ -15,6 +15,7 @@ import { ClientService } from '../../../core/client.service';
 import { NotificationComponent } from '../notification/notification.component';
 import { NotificationService } from '../../../core/notification.service';
 import { SharedService } from '../../services/shared.service';
+import { NotificationSoundService } from '../../services/notification-sound.service';
 
 @Component({
   selector: 'app-home',
@@ -49,6 +50,7 @@ export class HomeComponent implements OnInit {
               private sharedService: SharedService,
               private webSocketService: WebSocketService,
               private notificationService: NotificationService,
+              private notificationSoundService: NotificationSoundService,
               private toastr: ToastrService){
 
     this.chatMessageList = [];
@@ -93,7 +95,7 @@ export class HomeComponent implements OnInit {
           this.notificationService.saveNotification(message).subscribe((response:any)=>{ 
             this.notificationService.addItem(response.data);
           })
-
+            this.notificationSoundService.playSound();
             this.showSuccess("New Message from " + senderName);
           
         }) 
