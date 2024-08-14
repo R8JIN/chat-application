@@ -14,8 +14,13 @@
                                  <small >Today</small>
                                 </div>
                                 <div class="text-center my-3" *ngIf="(dateToday | date:'shortDate') != (timestamp | date:'shortDate')">
-                                    <small >{{timestamp | date:'EEEE'}}</small>
-                                   </div>
+                                    <div *ngIf="(dateToday | date:'week') == (timestamp | date:'week')">
+                                        <small >{{timestamp | date:'EEEE'}}</small>
+                                    </div>
+                                    <div *ngIf="(dateToday | date:'week') != (timestamp | date:'week')">
+                                        <small >{{timestamp | date:'fullDate'}}</small>
+                                    </div>
+                                </div>
                                 <div *ngFor="let message of chatMessageList" >
                                     <div *ngIf="(timestamp | date:'shortDate') == (message.messageTimeStamp | date: 'shortDate')">
                                         <app-message [message]="message" [targetClientId]="targetId"></app-message>
@@ -42,7 +47,7 @@
             </div>
             <div class="card-footer">
                 <div class="input-group">
-                    <textarea class="form-control" [(ngModel)]="messageInput" style="resize: none;"
+                    <textarea class="form-control" [(ngModel)]="messageInput" (ngModelChange)="messageInput = $event.trim()"  style="resize: none;"
                          id="chatInput" placeholder="Type your message..." rows="1"></textarea>
                     <div class="input-group-append m-2">
                         

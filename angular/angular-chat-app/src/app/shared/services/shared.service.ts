@@ -7,17 +7,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class SharedService {
 
 
-  private targetClientId = new BehaviorSubject<string>('');
-  currentValue = this.targetClientId.asObservable();
-  
-  public setTargetClientId(targetClientId: string){
-    console.log("The observable", targetClientId);
-    this.targetClientId.next(targetClientId);
+  private targetClient = new BehaviorSubject<any>({});
+  currentValue = this.targetClient.asObservable();
+
+  public setTargetClientId(targetClient: any){
+    console.log("The observable", targetClient);
+    this.targetClient.next(targetClient);
   }
 
-  public getTargetClientId$(): Observable<string>{
+  public gettargetClient$(): Observable<string>{
     
-    return this.targetClientId;
+    return this.targetClient;
   }
 
   constructor() { }
